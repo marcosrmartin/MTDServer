@@ -1,0 +1,1 @@
+- [ ] AVANZAR: he redactado lo hecho en este PR en la documentación.
