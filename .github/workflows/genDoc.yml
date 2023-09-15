@@ -1,0 +1,23 @@
+name: Genera PDF
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  genera_pdf:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up Git repository
+      uses: actions/checkout@v3
+    - name: Compila en LaTeX
+      uses: xu-cheng/latex-action@v2
+      with:
+        root_file: proyecto.tex
+        working_directory: ./doc
+    - name: Sube el PDF
+      uses: actions/upload-artifact@v3
+      with:
+        name: PDF
+        path: doc/proyecto.pdf
+
