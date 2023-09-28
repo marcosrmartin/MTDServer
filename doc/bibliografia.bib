@@ -10,16 +10,16 @@
 	howpublished = {\url{https://stackarmor.medium.com/intrusion-prevention-detection-and-web-application-firewalls-385d96b1c169}}
 }
 
-@misc{,
-	author       = {}, 
-	title        = {},
-	howpublished = {\url{}}
+@misc{big-state-of-art,
+	author       = {Jin-Hee Cho and Dilli P. Sharma and Hooman Alavizadeh and Seunghyun Yoon and Noam Ben-Asher and Terrence J. Moore and Dong Seong Kim and Hyuk Lim and Frederica F. Nelson}, 
+	title        = {Toward Proactive, Adaptive Defense: A Survey on Moving Target Defense.},
+	howpublished = {\url{https://arxiv.org/abs/1909.08092}}
 }
 
-@misc{,
-	author       = {}, 
-	title        = {},
-	howpublished = {\url{}}
+@misc{breaches-2023,
+	author       = {Michael X. Heiligenstein}, 
+	title        = {Recent Data Breaches – 2023},
+	howpublished = {\url{https://firewalltimes.com/recent-data-breaches/}}
 }
 
 @misc{gplv3,
@@ -30,249 +30,223 @@
     shorthand    = {GPL},
 }
 
-@misc{web-server-usage,
-	author       = {w3tech},
-	title        = {Usage of web servers for websites},
-	howpublished = {\url{https://w3techs.com/technologies/overview/web_server/all}}
+@inproceedings{MTD-ASR,
+author = {Shacham, Hovav and Page, Matthew and Pfaff, Ben and Goh, Eu-Jin and Modadugu, Nagendra and Boneh, Dan},
+title = {On the Effectiveness of Address-Space Randomization},
+howpublished = {\url{https://doi.org/10.1145/1030083.1030124}},
+year = {2004},
+isbn = {1581139616},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+abstract = {Address-space randomization is a technique used to fortify systems against buffer overflow attacks. The idea is to introduce artificial diversity by randomizing the memory location of certain system components. This mechanism is available for both Linux (via PaX ASLR) and OpenBSD. We study the effectiveness of address-space randomization and find that its utility on 32-bit architectures is limited by the number of bits available for address randomization. In particular, we demonstrate a <i>derandomization attack</i> that will convert any standard buffer-overflow exploit into an exploit that works against systems protected by address-space randomization. The resulting exploit is as effective as the original exploit, although it takes a little longer to compromise a target machine: on average 216 seconds to compromise Apache running on a Linux PaX ASLR system. The attack does not require running code on the stack.We also explore various ways of strengthening address-space randomization and point out weaknesses in each. Surprisingly, increasing the frequency of re-randomizations adds at most 1 bit of security. Furthermore, compile-time randomization appears to be more effective than runtime randomization. We conclude that, on 32-bit architectures, the only benefit of PaX-like address-space randomization is a small slowdown in worm propagation speed. The cost of randomization is extra complexity in system support.},
+booktitle = {Proceedings of the 11th ACM Conference on Computer and Communications Security},
+pages = {298–307},
+numpages = {10},
+keywords = {diversity, address-space randomization, automated attacks},
+location = {Washington DC, USA},
+series = {CCS '04}
 }
 
+@INPROCEEDINGS{MTD-arab,
+  author={Djamaluddin, Basirudin and Alnazeer, Ahmed and Azzedin, Farag},
+  booktitle={2018 International Carnahan Conference on Security Technology (ICCST)}, 
+  title={Web Deception Towards Moving Target Defense},
+  howpublished = {\url{https://ieeexplore.ieee.org/abstract/document/8585457}},
+  year={2018},
+  volume={},
+  number={},
+  pages={1-5},
+  abstract={As security threat are rising, and due to the serious risk, that affect the safety of the data are increasing, taking on consideration the complexity of detection, and securing the data, a proactive implementation of technique like deception and Moving Target Defense (MTD) have been emerged as important focus of the security community. The way those systems work by enhancing the flexibility of the system has increased the complexity for the attacker, which lead to a huge reduce on the number of successful attacks against it. In this paper we add more level of assurance by combining both technique on certain layers on the web application system.},
+  keywords={},
+  doi={10.1109/CCST.2018.8585457},
+  ISSN={2153-0742},
+  month={Oct},}
+
+@article{MTD-WAF,
+  title={Dynamic Web Application Firewall detection supported by Cyber Mimic Defense approach},
+  author={Sepczuk, Mariusz},
+  howpublished = {\url{https://www.sciencedirect.com/science/article/pii/S1084804523000152}},
+  journal={Journal of Network and Computer Applications},
+  volume={213},
+  pages={103596},
+  year={2023},
+  publisher={Elsevier}
+}
+
+@inproceedings{MTD-SDN+decoy,
+  title={Effectiveness evaluation method for cyber deception based on dynamic bayesian attack graph},
+  author={Wu, Hua and Gu, Yu and Cheng, Guang and Zhou, Yuyang},
+  howpublished = {\url{https://dl.acm.org/doi/abs/10.1145/3403746.3403897}},
+  booktitle={Proceedings of the 3rd International Conference on Computer Science and Software Engineering},
+  pages={1--9},
+  year={2020}
+}
+
+@inproceedings{MTD-ipshuffling+honeypots,
+  title={Evaluating Deception and Moving Target Defense with Network Attack Simulation},
+  author={Reti, Daniel and Fraunholz, Daniel and Elzer, Karina and Schneider, Daniel and Schotten, Hans Dieter},
+  howpublished = {\url{https://dl.acm.org/doi/abs/10.1145/3560828.3564006}},
+  booktitle={Proceedings of the 9th ACM Workshop on Moving Target Defense},
+  pages={45--53},
+  year={2022}
+}
+
+@inproceedings{MTD-POC-empresa,
+  title={Attack simulation for a realistic evaluation and comparison of network security techniques},
+  author={Bajic, Alexander and Becker, Georg T},
+  howpublished = {\url{https://link.springer.com/chapter/10.1007/978-3-030-03638-6_15}},
+  booktitle={Secure IT Systems: 23rd Nordic Conference, NordSec 2018, Oslo, Norway, November 28-30, 2018, Proceedings 23},
+  pages={236--254},
+  year={2018},
+  organization={Springer}
+}
+@inproceedings{MTD-DARE,
+  title={Dynamic application rotation environment for moving target defense},
+  author={Thompson, Michael and Mendolla, Marilyne and Muggler, Michael and Ike, Moses},
+  howpublished = {\url{https://ieeexplore.ieee.org/abstract/document/7573301}},
+  booktitle={2016 Resilience week (RWS)},
+  pages={17--26},
+  year={2016},
+  organization={IEEE}
+}
+
+@inproceedings{MTD-MORE+DARE+Java,
+  title={Active Defense Technology Based on Natural Software Diversity in Java Web Services},
+  author={Liu, Zhenwu and Zhang, Zheng and Liu, Hao and Zhang, Gaofei and Chen, Yuan},
+  howpublished = {\url{https://iopscience.iop.org/article/10.1088/1742-6596/1550/3/032024/meta}},
+  booktitle={Journal of Physics: Conference Series},
+  pages={032024},
+  year={2020},
+  organization={IOP Publishing}
+}
+@misc{MTD-gotemburgo,
+	author       = {Philip Tibom, Max Buck},
+	title        = {Design, Implementation and Evaluation of a Moving Target Defense in Distributed Systems},
+	year		 = {2022},
+	howpublished = {\url{https://odr.chalmers.se/server/api/core/bitstreams/d39791a9-c2d2-4417-819a-44056ae70542/content}}
+}
+@inproceedings{SCIT-base,
+  title={Securing web servers using self cleansing intrusion tolerance (SCIT)},
+  author={Bangalore, Anantha K and Sood, Arun K},
+  howpublished = {\url{https://ieeexplore.ieee.org/abstract/document/5211085}},
+  booktitle={2009 Second International Conference on Dependability},
+  pages={60--65},
+  year={2009},
+  organization={IEEE}
+}
+@inproceedings{MTD-comparativa-gorda,
+  title={Effective security analysis for combinations of mtd techniques on cloud computing (short paper)},
+  author={Alavizadeh, Hooman and Kim, Dong Seong and Hong, Jin B and Jang-Jaccard, Julian},
+  howpublished = {\url{https://mro.massey.ac.nz/bitstream/handle/10179/15238/AlavizadehPhDThesis.pdf}},
+  booktitle={International Conference on Information Security Practice and Experience},
+  pages={539--548},
+  year={2017},
+  organization={Springer}
+}
+por si tengo que meter la página extacta, es el punto 4.7
+@inproceedings{MTD-critica,
+  title={A critical view on moving target defense and its analogies},
+  author={Bajic, Alexander and Becker, Georg T},
+  howpublished = {\url{https://dl.acm.org/doi/pdf/10.1145/3387902.3397225}},
+  booktitle={Proceedings of the 17th ACM International Conference on Computing Frontiers},
+  pages={277--283},
+  year={2020}
+}
+@phdthesis{MTD-DARE-DIM-MASS,
+  title={A moving target defense approach towards security and resilience in web servers},
+  author={Le Wright-Hamor, Cimone},
+  howpublished = {\url{https://www.proquest.com/docview/2676586037}},
+  year={2022},
+  school={Iowa State University}
+}
+@article{DIM,
+  title={A rotational moving target defense solution for web servers},
+  author={Bisinger, Steffanie},
+  howpublished = {\url{https://core.ac.uk/download/pdf/212848175.pdf}},
+  year={2018}
+}
+@inproceedings{MORE,
+  title={Multiple OS rotational environment an implemented moving target defense},
+  author={Thompson, Michael and Evans, Nathaniel and Kisekka, Victoria},
+  howpublished = {\url{https://ieeexplore.ieee.org/abstract/document/6900086}},
+  booktitle={2014 7th International Symposium on Resilient Control Systems (ISRCS)},
+  pages={1--6},
+  year={2014},
+  organization={IEEE}
+}
+@inproceedings{SCIT-cloud,
+  title={Designing SCIT architecture pattern in a Cloud-based environment},
+  author={Nguyen, Quyen L and Sood, Arun},
+  howpublished = {\url{https://ieeexplore.ieee.org/abstract/document/5958797}},
+  booktitle={2011 IEEE/IFIP 41st International Conference on Dependable Systems and Networks Workshops (DSN-W)},
+  pages={123--128},
+  year={2011},
+  organization={IEEE}
+}
+@misc{kubernetes,
+  title={¿Qué es Kubernetes?},
+  howpublished = {\url{https://kubernetes.io/es/docs/concepts/overview/what-is-kubernetes/}},
+  journal={Kubernetes},
+  year={2022},
+  month={Jul},
+  language={es}
+}
+@misc{SLA,
+  title={¿Qué significa SLA y para qué sirve?},
+  author={Da Silva, Douglas},
+  howpublished = {\url{https://www.zendesk.com.mx/blog/sla-que-significa/}},
+  journal={Zendesk MX},
+  year={2021},
+  month={Feb},
+  language={es}
+}
+@article{iptables,
+  title={Iptables},
+  howpublished = {\url{https://en.wikipedia.org/wiki/Iptables}},
+  journal={en.wikipedia.org},
+  author={Wikipedia contributors},
+  year={2022},
+  month={Jun},
+  language={en}
+}
+@misc{firewalld,
+  title={Firewalld},
+  howpublished = {\url{https://firewalld.org/}},
+  journal={Firewalld},
+  author={Woerner, Thomas}
+}
+@article{Design-Generic-Intrusion-Tolerant-Architecture,
+  title={The design of a generic intrusion-tolerant architecture for web servers},
+  author={Saidane, Ayda and Nicomette, Vincent and Deswarte, Yves},
+  howpublished = {\url{https://ieeexplore.ieee.org/abstract/document/4429182}},
+  journal={IEEE Transactions on dependable and secure computing},
+  volume={6},
+  number={1},
+  pages={45--58},
+  year={2008},
+  publisher={IEEE}
+}
+@article{MTD-ML,
+  title={A deep learning assisted personalized deception system for countering web application attacks},
+  author={Shahid, Waleed Bin and Aslam, Baber and Abbas, Haider and Afzal, Hammad and Khalid, Saad Bin},
+  howpublished = {\url{https://www.sciencedirect.com/science/article/pii/S2214212622000540}},
+  journal={Journal of Information Security and Applications},
+  volume={67},
+  pages={103169},
+  year={2022},
+  publisher={Elsevier}
+}
+@misc{nginx,
+  title={Advanced Load Balancer, Web Server, & Reverse Proxy - NGINX},
+  howpublished = {\url{https://www.nginx.com/}},
+  journal={NGINX},
+  author={NGINX, Inc.},
+  year={2023},
+  month={Aug},
+  language={en-US}
+}
 @misc{apache,
-	author       = {Apache Software Foundation},
-	title        = {Apache Software Foundation},
-	howpublished = {\url{http://www.apache.org/}}
+  title={The Apache HTTP Server Project},
+  howpublished = {\url{https://httpd.apache.org/}},
+  author={Documentation Group}
 }
-
-@misc{nodejs-trend,
-	author       = {w3tech}, 
-	title        = {Usage statistics and market share of Node.js for websites},
-	howpublished = {\url{https://w3techs.com/technologies/details/ws-nodejs/all/all}}
-}
-
-@misc{acid,
-	author       = {Graham Chen}, 
-	title        = {Distributed transaction processing standars and their applications},
-	howpublished = {\url{https://pdfs.semanticscholar.org/cf9d/45b49b276615e6c5d94a8ffaf163933c49a6.pdf}}
-}
-
-@misc{cap,
-	author       = {Eric Brewer}, 
-	title        = {Brewer's CAP Theorem},
-	howpublished = {\url{http://www.julianbrowne.com/article/brewers-cap-theorem}}
-}
-
-@misc{pug,
-	author       = {Pug}, 
-	title        = {Pug template engine},
-	howpublished = {\url{https://github.com/pugjs/pug}}
-}
-
-@misc{jade,
-	author       = {Jade}, 
-	title        = {Jade Lang},
-	howpublished = {\url{jade-lang.com}}
-}
-
-@misc{bootstrap,
-	author       = {Bootstrap}, 
-	title        = {Bootstrap},
-	howpublished = {\url{https://getbootstrap.com/}}
-}
-
-@misc{hack-week,
-	author       = {Twitter}, 
-	title        = {Hack Week},
-	howpublished = {\url{https://blog.twitter.com/engineering/en_us/a/2010/hack-week.html}}
-}
-
-@misc{json,
-	author       = {w3schools}, 
-	title        = {JavaScript Object Notation},
-	howpublished = {\url{https://www.w3schools.com/js/js_json_intro.asp}}
-}
-
-@misc{mongoose,
-	author       = {Mongoose}, 
-	title        = {Elegant mongodb object modeling for node.js},
-	howpublished = {\url{http://mongoosejs.com/}}
-}
-
-@misc{agpl,
-	author       = {Free Software Foundation}, 
-	title        = {GNU Affero General Public License},
-	howpublished = {\url{https://www.gnu.org/licenses/agpl-3.0.html}}
-}
-
-@misc{ansible,
-	author       = {Ansible}, 
-	title        = {Automation for everyone},
-	howpublished = {\url{https://www.ansible.com/}}
-}
-
-@misc{passport,
-	author       = {Passport.js}, 
-	title        = {Simple, unobtrusive authentication for Node.js},
-	howpublished = {\url{http://www.passportjs.org/}}
-}
-
-@misc{express,
-	author       = {Express.js}, 
-	title        = {Fast, unopinionated, minimalist web framework for Node.js},
-	howpublished = {\url{http://expressjs.com/}}
-}
-
-@misc{blowfish,
-	author       = {Bruce Schneier}, 
-	title        = {Schneier on Security},
-	howpublished = {\url{https://www.schneier.com/academic/blowfish/}}
-}
-
-@misc{rainbow,
-	author       = {Philippe Oechslin}, 
-	title        = {Making a Faster Cryptanalytical Time-Memory Trade-Off},
-	howpublished = {\url{https://lasec.epfl.ch/~oechslin/publications/crypto03.pdf}}
-}
-
-@misc{gdpr,
-	author       = {European Union}, 
-	title        = {General Data Protection Regulation},
-	howpublished = {\url{https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L:2016:119:FULL&from=EN}}
-}
-
-@inbook{software-engineering,
-	author = {Ian Sommervile},
-	title = {Software Engineering},
-	bookTitle = {Software Engineering},
-	year = 2016,
-	publisher = {Springer International Publishing},
-	isbn = {0-321-31379-8},
-}
-
-@misc{nodejs,
-	author       = {Node.js Foundation}, 
-	title        = {Node.js},
-	howpublished = {\url{https://nodejs.org/es/}}
-}
-
-@misc{npm,
-	author       = {npm, Inc.}, 
-	title        = {Build amazing things},
-	howpublished = {\url{https://www.npmjs.com/}}
-}
-
-@misc{carbone,
-	author       = {Carbone}, 
-	title        = {Carbone},
-	howpublished = {\url{https://carbone.io/designer-documentation.html}}
-}
-
-@misc{canvas,
-	author       = {w3schools}, 
-	title        = {HTML5 Canvas},
-	howpublished = {\url{https://www.w3schools.com/html/html5_canvas.asp}}
-}
-
-@misc{supertest,
-	author       = {visionmedia}, 
-	title        = {Super-agent driven library for testing node.js HTTP servers using a fluent API},
-	howpublished = {\url{https://github.com/visionmedia/supertest}}
-}
-
-@misc{travis-ci,
-	author       = {Travis CI}, 
-	title        = {Test and Deploy with Confidence},
-	howpublished = {\url{https://travis-ci.org/}}
-}
-
-@misc{ubuntu-usage,
-	author       = {w3techs}, 
-	title        = {Usage statistics and market share of Linux for websites},
-	howpublished = {\url{https://w3techs.com/technologies/details/os-linux/all/all}}
-}
-
-@misc{gespol,
-	author       = {GESPOL}, 
-	title        = {GESPOL Security and Safety Systems},
-	howpublished = {\url{http://bilbo2.servebbs.net:9980/gespolweb/index.php/}}
-}
-
-@misc{appolo,
-	author       = {almerimatik}, 
-	title        = {Appolo, aplicación integral para Cuerpos de Policía Local},
-	howpublished = {\url{http://www2.almerimatik.es/appolo/}}
-}
-
-@misc{scrum,
-	author       = {Scrum Manager}, 
-	title        = {Troncal I. Scrum Master},
-	howpublished = {\url{http://scrummanager.net/files/scrum_manager.pdf}}
-}
-
-@misc{vagrant,
-	author       = {HashiCorp}, 
-	title        = {Development Environments Made Easy},
-	howpublished = {\url{https://www.vagrantup.com/}}
-}
-
-@misc{passport-func,
-	author       = {centuryLink}, 
-	title        = {Authentication with passport.js},
-	howpublished = {\url{https://www.ctl.io/developers/blog/post/build-user-authentication-with-node-js-express-passport-and-mongodb}}
-}
-
-@misc{image-unit-test,
-	author       = {Martin Fowler}, 
-	title        = {Unit test},
-	howpublished = {\url{https://martinfowler.com/bliki/UnitTest.html}}
-}
-
-@misc{image-ci,
-	author       = {FileCatalyst}, 
-	title        = {Continuous integration diagram},
-	howpublished = {\url{http://filecatalyst.com/wp-content/uploads/2014/12/Continuous-Integration-Diagram.png}}
-}
-
-@misc{image-node,
-	author       = {Belisoft}, 
-	title        = {PHP vs Nodejs},
-	howpublished = {\url{https://belitsoft.com/php-development-services/php7-vs-nodejs}}
-}
-
-@misc{image-node-arch,
-	author       = {Codeburst}, 
-	title        = {All about Node.js},
-	howpublished = {\url{https://codeburst.io/all-about-node-js-you-wanted-to-know-25f3374e0be7}}
-}
-
-@misc{image-mongoose,
-	author       = {Medium}, 
-	title        = {Introduction to Mongoose},
-	howpublished = {\url{https://medium.freecodecamp.org/introduction-to-mongoose-for-mongodb-d2a7aa593c57}}
-}
-
-@misc{image-vagrant,
-	author       = {Czerasz}, 
-	title        = {Vagrant workflow},
-	howpublished = {\url{http://czerasz.com/2015/01/06/vagrant-workflows/}}
-}
-
-@misc{image-ansible,
-	author       = {RoyalCyber}, 
-	title        = {Automation with Ansible},
-	howpublished = {\url{http://blog.royalcyber.com/devops/new-level-of-automation-with-ansible/}}
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
