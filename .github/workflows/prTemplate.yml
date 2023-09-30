@@ -1,0 +1,15 @@
+name: Check template
+on: 
+  pull_request:
+    types: [open, reopen, edited]
+
+jobs:
+  get-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comprobaciones sobre el cuerpo del PR
+        id: checklist
+        uses: JJ/pull-request-checks-action@v3
+      - name: Aborta si no avanza
+        if: ${{ steps.checklist.outputs.AVANZAR  == 'false' }}
+        run: echo "❌✍️ Redacta lo hecho en este PR antes de continuar al siguiente." && exit 1
