@@ -1,0 +1,66 @@
+\chapter{Implementación}
+
+La implementación del software se ha dividido en hitos. Estos han sido definidos en Github
+y cada uno de ellos contiene un grupo de \textit{issues} que se corresponden con las distintas
+mejoras que se han ido incorporando al software a lo largo de su desarrollo.
+
+\section{Toma de decisiones}
+
+\subsection{Gestor de dependencias}
+Los criterios para elegir el gestor de dependencias, de mayor a menor prioridad, han sido:
+\begin{enumerate}
+    \item Soporte pyproject.toml.
+    \item Creación de entornos virtuales/gestión las dependencias de forma local.
+    \item Rendimiento.
+\end{enumerate}
+
+Donde se van a evaluar los siguientes gestores de dependencias: \textit{Pipenv, Poetry, Hatch, PDM, Conda, Mamba, Pixi, Rye, Miniconda y Micromamba}
+
+\begin{table}[H]
+    \centering
+    \begin{adjustbox}{width=\textwidth, totalheight=\textheight, keepaspectratio}
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+            \hline
+            Requisitos & Pipenv & Poetry & Hatch & PDM & Conda & Mamba & Pixi & Rye & Pip & Pip-tools & Miniconda & Micromamba\\
+            \hline
+            Pyproject.toml & \checkmark & \checkmark & \checkmark & \checkmark & \ding{55} & \ding{55} & \ding{55} & \checkmark & \ding{55} & \ding{55} & \ding{55} & \ding{55} \\
+            Entornos virtuales & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \ding{55} & \ding{55}  & \checkmark & \checkmark \\
+            \hline
+        \end{tabular}
+    \end{adjustbox}
+    \caption{Comparativa entre gestores de dependencias.}
+\end{table}
+
+Pip y pip-tools, no gestionan entornos virtuales, el resto de opciones si lo hace. Conda, mamba y sus versiones lite no tienen pyprojec.toml, en cuanto a pixi, este está basado sobre conda, pero genera en el directorio de trabajo su pixi.lock y pixi.toml, el cual no cumple con el estándar de pyproject.toml.
+
+Para evaluar su rendimiento nos basaremos en diferentes benchmarks\cite{pm-benchmark-shootout}. Donde observamos que poetry es el más rápido en realizar la instalación desde un lockfile, creación de este y en añadir un paquete. Además es el segundo en actualizar los paquetes. Sin embargo es el que más tarda en ser instalado. Ya que el gestor de dependencias será instalado una sola vez, vamos a priorizar los otros benchmarks. Por lo que tenemos a poetry como ganador ante PDM y pipenv.
+
+Debido a que no se ha encontrado ningún benchmark sobre Hatch y Rye (este además de que está en un estado experimental), se utilizará poetry como gestor de dependencias.
+
+\subsection{Gestor de tareas}
+Los criterios para elegir el gestor de tareas, de mayor a menor prioridad, han sido:
+\begin{enumerate}
+    \item Curva de aprendizaje.
+    \item Ficheros de configuración.
+\end{enumerate}
+
+Donde se van a evaluar los siguientes gestores de tareas: \textit{Poethepoet, Pypyr, Invoke, Doit, Pytask}
+
+\begin{table}[H]
+    \centering
+    \begin{adjustbox}{width=\textwidth, totalheight=\textheight, keepaspectratio}
+        \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        Requisitos & Poethepoet & Pypyr & Invoke & Doit & Pytask\\
+        \hline
+        Curva de aprendizaje & Fácil & Difícil & Medio & Medio & Medio \\
+        Ficheros de configuración & pyproject.toml & pipelines/*.yml + .py & tasks.py & dodo.py & task\_*.py \\
+        \hline
+        \end{tabular}
+    \end{adjustbox}
+      \caption{Comparativa entre gestores de tareas.}
+\end{table}
+
+De las opciones anteriores, poethepoet es el que menos deuda técnica aporta al proyecto, ya que además de permitir funciones en Python como invoke, doit y pytask, permite utilizar shell, comandos y expresiones en Python directamente. Sumando que utiliza el fichero de configuración pyproject.toml, por lo que se evitarían ficheros extra.
+
+
