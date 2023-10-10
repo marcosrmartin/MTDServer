@@ -5,7 +5,6 @@ env:
   IGNORES_ENVS: otherlanguage,displaymath
   IGNORED_MACROS: tableofcontents,listoffigures,listoftables,begin,centeroffset,oddsidemargin,evensidemargin,centering,bfseries,end,cleardoublepage,setlength,textit
   #Ya que la action se ejecuta en /doc
-  DICT: ../.github/words-allowlist.txt
 jobs:
   typo_latex:
     runs-on: ubuntu-latest
@@ -18,7 +17,7 @@ jobs:
         with:
           root_file: proyecto.tex
           working_directory: doc/
-          args: --check es --ignore $IGNORED_RULES --remove $IGNORES_ENVS --remove-macros $IGNORED_MACROS --dict $DICT
+          args: --check es --ignore $IGNORED_RULES --remove $IGNORES_ENVS --remove-macros $IGNORED_MACROS
 
       - name: Sube el reporte de TeXtidote
         uses: actions/upload-artifact@v3
