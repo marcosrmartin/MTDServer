@@ -1,0 +1,54 @@
+name: Construcción de documentación y corrección
+on: 
+  pull_request:
+    paths:
+      - 'doc/**/*'
+  push:
+    branches:
+      - master 
+    paths:
+      - 'doc/**/*' 
+env:
+  IGNORED_RULES: sh:seclen,sh:stacked,sh:nobreak,sh:nonp
+  IGNORES_ENVS: otherlanguage,displaymath
+  IGNORED_MACROS: tableofcontents,listoffigures,listoftables,begin,centeroffset,oddsidemargin,evensidemargin,centering,bfseries,end,cleardoublepage,setlength,textit
+  #Ya que la action se ejecuta en /doc
+jobs:
+  documentacion:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v3
+
+      - name: Busca errores
+        uses: ChiefGokhlayeh/textidote-action@v5
+        id: lint
+        with:
+          root_file: proyecto.tex
+          working_directory: doc/
+          args: --check es --ignore $IGNORED_RULES --remove $IGNORES_ENVS --remove-macros $IGNORED_MACROS
+
+      #Solución temporal a las faltas que no puedo quitar
+      - name: Throw error if linter warnings exist
+        if: ${{ steps.lint.outputs.num_warnings > 0 }}
+        run: 'echo "::warning file=project.tex::num_warnings: ${{ steps.lint.outputs.num_warnings }}";'
+
+      - name: Sube el reporte de TeXtidote
+        uses: actions/upload-artifact@v3
+        with:
+          name: textidote_report
+          path: doc/report.html
+
+      - name: Compila en LaTeX
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: proyecto.tex
+          working_directory: ./doc
+
+      - name: Sube el PDF
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: actions/upload-artifact@v3
+        with:
+          name: Documentación
+          path: doc/proyecto.pdf
