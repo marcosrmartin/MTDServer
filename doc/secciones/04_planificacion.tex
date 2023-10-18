@@ -1,7 +1,7 @@
 \chapter{Planificación}
 
-\section{Metodología utilizada - Desarrollo ágil}
-La realización de este proyecto se ha llevado a cabo con \textbf{desarrollo ágil}, según Deisy Villalba: ``El desarrollo ágil de software es una forma de integrar las capacidades de un equipo de desarrollo para poner en marcha un plan de trabajo que permita ir entregando pequeños resultados al cliente en poco tiempo, para que este se sienta tranquilo y a gusto con el trabajo realizado. Además, se prima el flujo de trabajo, la colaboración entre los miembros del equipo y siempre enfocarse en lo que se está haciendo y cómo se está haciendo.''\cite{desarrollo-agil}.
+\section{Desarrollo ágil}
+La realización de este proyecto se ha llevado a cabo con \textbf{desarrollo ágil}. Este se basa en priorizar la entrega de software funcional, plazos de entregas reducidos, colaboración con el cliente y adaptabilidad frente a cambios. Fue propuesto en 2001, en el \textit{Manifiesto Agile}.\cite{agile}
 
 O de una forma más sencilla, esta metodología nos dice:
 \begin{enumerate}
@@ -12,10 +12,10 @@ O de una forma más sencilla, esta metodología nos dice:
 \section{Historias de usuario}
 Serán aquellas peticiones que guiarán el desarrollo, es decir son las peticiones a satisfacer para tener un desarrollo correcto. Se han creado las siguientes:
 \begin{itemize}
-    \item [HU-1] Adaptar el entorno a las implementaciones
-    \item [HU-2] Implementación MASS.
-    \item [HU-3] Implementar MTD K8s en el repositorio.
-    \item [HU-n] Comparativa entre MASS y MTD K8s.
+    \item \href{https://github.com/marcosrmartin/MTD_Server/issues/16}{[HU-1]} Adaptar el entorno a las implementaciones: como programador, necesito adaptar el entorno para la implementación de MASS #12 y el MTD que utiliza K8s #21. Tener en cuenta que MASS está escrito en Python y el otro tiene soporte de Maven. Entre mis necesidades se encuentran realizar test sobre las implementaciones, gestionar sus dependencias y facilitar el proceso de instalación de ambas. Todo esto me permitirá trabajar más cómodamente, a la vez que mejorar el flujo de trabajo.
+    \item \href{https://github.com/marcosrmartin/MTD_Server/issues/12}{[HU-2]} MASS pruebas: como investigador, necesito realizar \textit{benchmarks} para mi investigación sobre MASS (debido a que es de las últimas tecnologías MTD aplicada a servidores web) pero esta no es \textit{opensource} #15.
+    \item \href{https://github.com/marcosrmartin/MTD_Server/issues/21}{[HU-3]} Implementar MTD K8s en el repositorio: como investigador, para llevar a cabo #15, necesito realizar pruebas con https://github.com/ptibom/Moving-Target-Defense-with-Kubernetes.
+    \item \href{https://github.com/marcosrmartin/MTD_Server/issues/15}{[HU-n]} Comparativa entre MASS y MTD K8s: como investigador, necesito realizar una comparativa entre las implementaciones actuales de MTD a servidores web. Estas son: MASS y https://github.com/ptibom/Moving-Target-Defense-with-Kubernetes. Para así saber cual es la mejor opción para un entorno de producción.
 \end{itemize}
 A partir de estas historias se creará el camino a seguir para el desarrollo del proyecto.
 
@@ -23,11 +23,9 @@ A partir de estas historias se creará el camino a seguir para el desarrollo del
 ``Los milestones son herramientas para comenzar a trabajar y organizar el trabajo con un objetivo claro y concreto en cada fase.
 ''\cite{iv}. Es decir, son el camino que nos marcamos antes de empezar a trabajar y estos tendrán una serie de requisitos para poder superarse. Los hitos están basados en las peticiones hechas por los usuarios(HUs). Se han llevado a cabo los siguientes hitos:
 \begin{itemize}
-    \item [M-0] Preparar el entorno para la documentación.
-    \item [M-1] Infraestructura inicial MASS.
-    \item [M-0] Implementación MASS.
-    \item [M-x] Implementar MTD K8s en repositorio.
-    \item [M-x] Comparativa entre MTD K8s y MASS.
+    \item \href{https://github.com/marcosrmartin/MTD_Server/milestone/1}{[M-0]} Preparar el entorno para la documentación.
+    \item \href{https://github.com/marcosrmartin/MTD_Server/milestone/3}{[M-1]} Infraestructura inicial MASS.
+    \item \href{https://github.com/marcosrmartin/MTD_Server/milestone/2}{[M-2]} Implementación MASS.
 \end{itemize}
 
 % \section{Temporización}
