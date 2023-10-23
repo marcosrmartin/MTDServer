@@ -1,0 +1,47 @@
+\chapter{Planificación}
+En este capítulo se abordarán aspectos esenciales para el desarrollo del proyecto. Se presentan historias de usuario que guiarán el desarrollo e hitos como objetivos concretos y como cumplirlos, por último se estiman los costos del proyecto, incluyendo la amortización del hardware. En resumen, este capítulo proporciona una visión general de la estrategia y recursos necesarios para llevar a cabo el proyecto de manera eficiente.
+
+\section{Historias de usuario}
+Serán aquellas peticiones que guiarán el desarrollo, es decir son las peticiones a satisfacer para tener un desarrollo correcto. Se han creado las siguientes:
+\begin{itemize}
+    \item \href{https://github.com/marcosrmartin/MTD_Server/issues/16}{[HU-1]} Adaptar el entorno a las implementaciones: como programador, necesito adaptar el entorno para la implementación de MASS #12 y el MTD que utiliza K8s #21. Tener en cuenta que MASS está escrito en Python y el otro tiene soporte de Maven. Entre mis necesidades se encuentran realizar test sobre las implementaciones, gestionar sus dependencias y facilitar el proceso de instalación de ambas. Todo esto me permitirá trabajar más cómodamente, a la vez que mejorar el flujo de trabajo.
+    \item \href{https://github.com/marcosrmartin/MTD_Server/issues/12}{[HU-2]} MASS pruebas: como investigador, necesito realizar \textit{benchmarks} para mi investigación sobre MASS (debido a que es de las últimas tecnologías MTD aplicada a servidores web) pero esta no es \textit{opensource} #15.
+    \item \href{https://github.com/marcosrmartin/MTD_Server/issues/21}{[HU-3]} Implementar MTD K8s en el repositorio: como investigador, para llevar a cabo #15, necesito realizar pruebas con https://github.com/ptibom/Moving-Target-Defense-with-Kubernetes.
+    \item \href{https://github.com/marcosrmartin/MTD_Server/issues/15}{[HU-n]} Comparativa entre MASS y MTD K8s: como investigador, necesito realizar una comparativa entre las implementaciones actuales de MTD a servidores web. Estas son: MASS y https://github.com/ptibom/Moving-Target-Defense-with-Kubernetes. Para así saber cual es la mejor opción para un entorno de producción.
+\end{itemize}
+A partir de estas historias se creará el camino a seguir para el desarrollo del proyecto.
+
+\section{Seguimiento del desarrollo - Hitos}
+``Los milestones son herramientas para comenzar a trabajar y organizar el trabajo con un objetivo claro y concreto en cada fase.
+''\cite{iv}. Es decir, en cada uno se entregará un producto mínimamente viable, el cual tendrá una serie de requisitos para ser considerado válido.
+
+Aplicando el desarrollo ágil a estos \textit{milestones}, se desarrollarán de forma incremental, es decir que el conjunto de hitos sean una serie de escalones. Esto se hace para reducir el plazo de iteraciones y facilitar la toma de dicisiones. Dichos escalones serán planificados partiendo de las peticiones hechas por los usuarios(HUs).
+
+% \section{Temporización}
+% Hacer gráfica cuando se tenga el total de horas
+
+\section{Costes}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{| l | l | r |}
+        \hline
+        \textbf{Concepto} & \textbf{Materiales} & \textbf{Precio} \\
+        \hline
+        Hardware	& Ordenador y periféricos & Amortización* 308.75 €/año\\
+        Personal 	& Ingeniero Junior	& 18000-23000 al año \\
+        Software 	& Software libre gratuito & 0 € \\
+        % Recursos en la nube 	& GitHub plan gratuito & 0 € \\
+        \hline
+        % Coste total 			& x horas de desarrollo & x-x € \\
+        \hline
+	\end{tabular}
+	\caption{Costes estimados del proyecto.}
+\end{table}
+
+% https://twitter.com/isagasti/status/1593923910617251841
+*Amortización aplicando el coeficiente máximo de amortización lineal para el grupo ''equipos para procesos de información''\cite{amortizacion}. Se incluye todo el equipo informático como conjunto operativo. Coste de compra total 1235 €, 1100 € ordenador y 135 € periféricos.
+
+
+% Ir añadiendo con las implementaciones y toma de dicisiones.
+\section{Herramientas}
+A continuación se muestra un listado con las herramientas utilizadas en el desarrollo del proyecto:
