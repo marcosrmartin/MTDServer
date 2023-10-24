@@ -40,7 +40,6 @@ jobs:
           path: doc/report.html
 
       - name: Compila en LaTeX
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         uses: xu-cheng/latex-action@v2
         with:
           root_file: proyecto.tex
