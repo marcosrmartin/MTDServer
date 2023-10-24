@@ -4,8 +4,6 @@ on:
     paths:
       - 'doc/**/*'
   push:
-    branches:
-      - master 
     paths:
       - 'doc/**/*' 
 env:
