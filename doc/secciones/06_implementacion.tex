@@ -64,3 +64,78 @@ Donde se van a evaluar los siguientes gestores de tareas: \textit{Poethepoet, Py
 De las opciones anteriores, poethepoet es el que menos deuda técnica aporta al proyecto, ya que además de permitir funciones en Python como invoke, doit y pytask, permite utilizar shell, comandos y expresiones en Python directamente. Sumando que utiliza el fichero de configuración pyproject.toml, por lo que se evitarían ficheros extra.
 
 
+\subsection{Test runner}
+Los criterios para elegir el \textit{test runner}, de mayor a menor prioridad, han sido:
+\begin{enumerate}
+    \item Utiliza BDD (Behavior Driven Development).
+    \item Estructura de archivos.
+    \item Diferentes características.
+\end{enumerate}
+
+Donde se van a evaluar las siguientes herramientas: \textit{Pytest, Nose2, Unittest, Green, Behave, Testcontainers, Radish}
+
+\begin{table}[H]
+    \centering
+    \begin{adjustbox}{width=\textwidth, totalheight=\textheight, keepaspectratio}
+        \begin{tabular}{|c|c|c|c|c|c|c|c|}
+        \hline
+        Requisitos & Pytest & Nose2 & Unittest & Green & Behave & Testcontainers & Radish \\
+        \hline
+        Utiliza BDD & \checkmark (plugin) & \ding{55} & \ding{55} & \ding{55} & \checkmark & \ding{55} & \checkmark \\
+        \hline
+        \end{tabular}
+    \end{adjustbox}
+      \caption{1ª Comparativa entre gestores de tareas.}
+\end{table}
+
+Se descartan todas excepto Pytest, Behave y Radish.
+
+La estructura de archivos entre estos apenas varía, todos utilizan \textit{steps}, \textit{features} y un fichero \textit{.ini} (el cual puede ser utilizado para cambiar la estructura).
+
+En este punto los tres son válidos en el proyecto, sin embargo, vamos a comparar algunas características para seleccionar uno:
+
+\begin{itemize}
+    \item Paralelismo: Behave no tiene paralelismo nativo (y el plugin que lo soportaba esta deprecated), mientras que Radish lo soporta de forma nativa y Pytest con un plugin (pytest-xdist).
+    \item Escenario como precondición: Radish permite que para ejecutarse un escenario se tenga que cumplir otro previamente.
+    \item Bucle de escenario: Radish permite ejecutar escenarios en bucle.
+    \item Declaración explícita de escenarios: Pytest necesita que en el fichero \textit{steps} se declare explícitamente el escenario.
+    \begin{table}[H]
+        \centering
+        \begin{adjustbox}{width=\textwidth, totalheight=\textheight, keepaspectratio}
+            \begin{tabular}{|c|c|c|c|}
+            \hline
+            Otras características & Pytest & Behave & Radish \\
+            \hline
+            Dependencias & 11 & 4 & 9 \\
+            \hline
+            Tamaño & 1.25 MB & 982 KB & 1.89 MB \\
+            \hline
+            Forks (Github) & 206 & 679 & 48 \\
+            \hline
+            Stars (Github) & 1.2 K & 3 K & 176 \\
+            \hline
+            Snyk advisor  & 91 & 71* & 87 \\
+            \hline
+            \end{tabular}
+        \end{adjustbox}
+            \caption{2ª Comparativa entre gestores de tareas.}
+    \end{table}
+\end{itemize}
+
+
+En esta comparativa se puede ver que Pytest se queda un poco atrás en la facilidad de uso de BDD, mientras que Radish es el que tiene más funcionalidades. Sin embargo estas funcionalidades, como el paralelismo, no se aplicarán a este proyecto, ya que los test modificarán iptables de la máquina donde se ejecute y levantará contenedores, aunque estas tareas podrían ser paralelizables, debido a su complejidad no se realizarán. Otra funcionalidad como los bucles de escenarios no será necesario y los escenarios como precondición podrían ser útiles en otro contexto, ya que este se podría utilizar para comprobar que el docker está corriendo correctamente, pero esto se adaptaría mejor en el \textit{setup} y \textit{teardown} (utilizando menos recursos), por lo que, aunque Radish brinda más funcionalidades, difícilmente serán adaptables a este proyecto, por lo que se va a utilizar Behave el cual cumple con los requisitos necesarios, es el que añade menos dependencias, es el más ligero y cuenta con mayor comunidad (dentro de BDD). Aunque este es marcado en Snyk advisor\cite{snyk} como inactivo, no lo es, ya que este utiliza la última versión en Pypi, la cual salió en 2018, sin embargo el proyecto se ha seguido desarrollando, solo que no cuenta con una nueva versión en Pypi. En Github se puede encontrar su propio versionado y \href{https://behave.readthedocs.io/en/latest/install/#using-the-github-repository}{como descargarlo}.
+
+
+\subsection{Librería de aserciones}
+Los criterios para elegir la librería de aserciones, de mayor a menor prioridad, han sido:
+
+\begin{enumerate}
+    \item Por defecto.
+    \item Otras características.
+\end{enumerate}
+
+Donde se van a evaluar las siguientes librerías: \textit{Assert, Unittest, PyHamcrest, Pytest, Asserpy, Truth, Matchers, Grappa, Verify}
+
+Se descartarán todos excepto Assert y Unittest, los cuales están incluidos por defecto en Python.
+
+Se utilizará Unittest, ya que aunque no se necesite gran variedad de funcionalidades y se pueda conseguir lo mismo con ambas, Unittest permitirá no tener que escribir explícitamente los fallos (lo cual sería más necesario si no se utilizase un BDD) y usar una función autodescriptiva, consiguiendo una mayor legibilidad.
