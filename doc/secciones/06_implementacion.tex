@@ -139,3 +139,62 @@ Donde se van a evaluar las siguientes librerías: \textit{Assert, Unittest, PyHa
 Se descartarán todos excepto Assert y Unittest, los cuales están incluidos por defecto en Python.
 
 Se utilizará Unittest, ya que aunque no se necesite gran variedad de funcionalidades y se pueda conseguir lo mismo con ambas, Unittest permitirá no tener que escribir explícitamente los fallos (lo cual sería más necesario si no se utilizase un BDD) y usar una función autodescriptiva, consiguiendo una mayor legibilidad.
+
+\subsection{Imagen Docker para los servidores}
+El MTD deberá de rotar entre dos servidores, esto se llevará a cabo rotando dos contenedores Docker, uno que tendrá un servidor Nginx y otro uno Apache, está deberá ser la única diferencia sustancial entre ambos, ya que deberán de tener el mismo SO y configuración (dentro de lo posible). Por lo que se elegirá una imagen y a partir de esta se creará una para Nginx y otra para Apache. Los criterios para la elección de la imagen han sido los siguientes:
+
+\begin{enumerate}
+    \item Peso descarga imagen base (linux/amd64).
+    \item Peso imagen montada.
+    \item Uso de memoria (reposo).
+    \item Seguridad (docker scan Snyk).
+\end{enumerate}
+
+Antes de mencionar las imágenes evaluadas se han descartado las imágenes personalizadas que requieran de ficheros estáticos o herramientas externas como Bazel para ser montadas, aquellas que no son oficiales de Docker, editor oficial o \textit{sponsored oss} (para que estas tengan soporte de alguna entidad/persona que implementen mejoras o arreglen bugs) y aquellas orientadas a una implementación de Nginx o Apache, ya que habrá que adaptarlo al otro desde esa imagen. 
+
+Las imágenes a tener en cuenta han sido: \textit{alpine:3.18.4, debian:trixie-20231009, debian:trixie-20231009-slim, phusion/baseimage:jammy-1.0.1, almalinux:9.2, almalinux:9.2-minimal, ubuntu:mantic-20231011, fedora:40, bellsoft/alpaquita-linux-base:stream-musl-231027, bellsoft/alpaquita-linux-base:stream-glibc-231027, gcr.io/distroless/base-debian12:nonroot}
+
+Se utilizarán nombre abreviados de las imágenes a partir de ahora.
+
+\begin{table}[H]
+    \centering
+    \begin{adjustbox}{width=\textwidth, totalheight=\textheight, keepaspectratio}
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+         Imágenes & alpine & debian & debian-slim & baseimage & almalinux & almalinux-minimal & ubuntu & fedora & alpaquita-musl & alpaquita-glibc & distroless-base \\
+        \hline
+        Tamaño comprimida & 3.246 MB & 47.210 MB & 28.006 MB & 80.500 MB & 65.054 MB & 31.918 MB & 28.17 MB & 63.100 MB & 3.263 MB & 8.766 MB & 1.012 MB \\
+        \hline
+        Tamaño montada & 7.34 MB & 116 MB & 75.1 MB & 229 MB & 184 MB & 86.2 MB & 71.2 MB & 185 MB & 7.44 MB & 22.4 MB & 20.7 MB \\
+        \hline
+        \end{tabular}
+    \end{adjustbox}
+    \caption{Comparativa del tamaño de las imágenes.}
+\end{table}
+
+Donde se descartarán al ocupar bastante espacio:
+\begin{enumerate}
+    \item Tamaño de la imagen comprimida: debian, baseimage, almalinux, fedora.
+    \item Tamaño de la imagen montada: debian-slim, almalinux-minimal, ubuntu.
+\end{enumerate}
+
+La elección será entre: alpine, alpaquita-musl, alpaquita-glibc, distroless-base.
+
+\begin{table}[H]
+    \centering
+    \begin{adjustbox}{width=\textwidth, totalheight=\textheight, keepaspectratio}
+        \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        Imágenes & alpine & alpaquita-musl & alpaquita-glibc & distroless-base \\
+        \hline
+        Uso de memoria & 5.379 MiB & 5.301 MiB & 5.223 MiB & 5.07 MiB \\
+        \hline
+        Imágenes & 0 & No info & No info & 9L \\
+        \end{tabular}
+    \end{adjustbox}
+    \caption{Comparativa uso de memoria y CVEs.}
+\end{table}
+
+En la comparativa anterior comprobamos que no hay gran diferencia de uso de memoria entre las candidatas. Excepto las alpaquita de las cuales no tenemos información de sus CVEs, y que son descartadas por esto, el resto son seguras.
+
+Aunque no hay mucha diferencia entre ambas alpine es superior, en tres de los cuatro criterios a tener en cuenta, a la imagen \textit{distroless}, por lo que se utilizará una imagen que tenga alpine como punto de partida para ambas imágenes. 
