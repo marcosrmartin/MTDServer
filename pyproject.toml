@@ -20,4 +20,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poe.tasks]
 setup = "poetry install"
+images = ["nginx"," httpd"]
+nginx = "docker build -f mass/nginx/Dockerfile -t nginx ."
+httpd = "docker build -f mass/httpd/Dockerfile -t httpd ."
 check = "python -m compileall mass/"
