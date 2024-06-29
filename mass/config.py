@@ -33,7 +33,7 @@ def get_shutdown():
 def signal_handler(sig, frame):
     global _shutdown
     if not _shutdown:
-        logger.info("\nShutting down...")
+        logger.info(f"Shutting down...")
         _shutdown = True
 
 signal.signal(signal.SIGINT, signal_handler)
