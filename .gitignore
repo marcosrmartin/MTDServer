@@ -312,3 +312,5 @@ typings/
 # compilation
 dist/
 *.pyc
+.coverage
+coverage.xml
