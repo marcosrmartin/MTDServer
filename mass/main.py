@@ -22,6 +22,7 @@ def main():
 
     mtd = MTDController(args.duration, args.lower, args.upper)
     mtd.start()
-
+    mtd.close()
+    
 if __name__ == "__main__":
     main()
