@@ -31,7 +31,7 @@ Donde se van a evaluar los siguientes gestores de dependencias: \textit{Pipenv, 
     \caption{Comparativa entre gestores de dependencias.}
 \end{table}
 
-Pip y pip-tools, no gestionan entornos virtuales, el resto de opciones si lo hace. Conda, mamba y sus versiones lite no tienen pyprojec.toml, en cuanto a pixi, este está basado sobre conda, pero genera en el directorio de trabajo su pixi.lock y pixi.toml, el cual no cumple con el estándar de pyproject.toml.
+Pip y pip-tools, no gestionan entornos virtuales, el resto de opciones si lo hace. Conda, mamba y sus versiones lite no tienen {\tt pyproject.toml}, en cuanto a pixi, este está basado sobre conda, pero genera en el directorio de trabajo su pixi.lock y pixi.toml, el cual no cumple con el estándar de pyproject.toml.
 
 Para evaluar su rendimiento nos basaremos en diferentes benchmarks\cite{pm-benchmark-shootout}. Donde observamos que poetry es el más rápido en realizar la instalación desde un lockfile, creación de este y en añadir un paquete. Además es el segundo en actualizar los paquetes. Sin embargo es el que más tarda en ser instalado. Ya que el gestor de dependencias será instalado una sola vez, vamos a priorizar los otros benchmarks. Por lo que tenemos a poetry como ganador ante PDM y pipenv.
 
