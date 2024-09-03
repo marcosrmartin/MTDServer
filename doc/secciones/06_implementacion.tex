@@ -6,10 +6,19 @@ mejoras que se han ido incorporando al software a lo largo de su desarrollo.
 
 \section{Toma de decisiones}
 
+\subsection{Elección MTD para servidor web}
+Donde el único criterio a tener en cuenta es el consumo de recursos.
+Los candidatos para la elección son: MTD CBITS, DARE, DIM, MASS y la implementación de Philip Tibom y Max Buck\cite{MTD-gotemburgo}(K8s).
+
+Como DARE, DIM y MASS son sucesiones de la misma implementación con mejoras en cada una de ellas (como se muestra en el estado del arte) nos quedamos con MASS entre estos tres.
+MTD CBITS y K8s son implementaciones de codigo abierto que aportan la solución a escenario cloud/distribuidos, pero para implementarlos en un único servidor supondrían mucha sobrecarga de infraestructura para poder utilizarlo. Por ejemplo para K8s, MTD CBITS y MASS tendríamos que hacer el despliegue en el mismo servidor desde el que manejaríamos el MTD, la diferencia entre K8s, MTD CBITS y MASS es que los dos primeros necesitan la infraestructura de despliegue y de nodo (Kubeadm+Minikube el primero y Puppet+Openstack el segundo) versus MASS (Docker+Firewalld). 
+
+Por lo que atendiendo al consumo de recursos se selecciona el MASS.
+
 \subsection{Gestor de dependencias}
 Los criterios para elegir el gestor de dependencias, de mayor a menor prioridad, han sido:
 \begin{enumerate}
-    \item Soporte pyproject.toml.
+    \item Soporte pyproject.toml (Ajustandose al PEP 518\cite{pep-pyproject}).
     \item Creación de entornos virtuales/gestión las dependencias de forma local.
     \item Rendimiento.
 \end{enumerate}
@@ -140,7 +149,7 @@ Se descartarán todos excepto Assert y Unittest, los cuales están incluidos por
 
 Se utilizará Unittest, ya que aunque no se necesite gran variedad de funcionalidades y se pueda conseguir lo mismo con ambas, Unittest permitirá no tener que escribir explícitamente los fallos (lo cual sería más necesario si no se utilizase un BDD) y usar una función autodescriptiva, consiguiendo una mayor legibilidad.
 
-\subsection{Imagen Docker para los servidores}
+\subsection{Imagen OCI para los servidores}
 El MTD deberá de rotar entre dos servidores, esto se llevará a cabo rotando dos contenedores Docker, uno que tendrá un servidor Nginx y otro uno Apache, está deberá ser la única diferencia sustancial entre ambos, ya que deberán de tener el mismo SO y configuración (dentro de lo posible). Por lo que se elegirá una imagen y a partir de esta se creará una para Nginx y otra para Apache. Los criterios para la elección de la imagen han sido los siguientes:
 
 \begin{enumerate}
