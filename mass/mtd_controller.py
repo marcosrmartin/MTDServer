@@ -21,7 +21,7 @@ class MTDController:
         if lower > upper:
             logger.error("The lower bound cannot be higher than the upper bound.")
             raise ValueError("The lower bound cannot be higher than the upper bound.")
-            
+        
         self._container_controller = ContainerController()
         self._port_controller = PortController()
         self._duration = duration
@@ -52,6 +52,8 @@ class MTDController:
         ini_time = time.time()
         end_time = ini_time + self._duration
         try:
+            logger.info(f"Runnning with: duration: {self._duration}, lower: {self._lower}, upper: {self._upper}")
+
             while time.time() < end_time and not get_shutdown():
                 wait_time = random.uniform(self._lower, self._upper)
                 logger.debug(f"{wait_time:.2f}s until the next swap...")
@@ -60,7 +62,7 @@ class MTDController:
                     break
                 self.__switch()
             if get_shutdown():
-                logger.error('Asopla como paro el MTD')
+                logger.error('MTD run stopped by user')
                 raise ValueError(f"MTD run stopped by user.")
             return True
         except Exception as e:

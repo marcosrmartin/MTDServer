@@ -4,7 +4,7 @@ from behave import given, when, then, use_step_matcher
 import unittest
 from mass.container_controller import ContainerController
 from mass.config import NGINX, HTTPD, PROXY, PORT
-from common.helpers import *
+from tests.common.helpers import *
 import re
 
 

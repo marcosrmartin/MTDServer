@@ -60,13 +60,13 @@ class PortController:
             self.__remove_port(HTTPD, TCP)
             self.__add_port(NGINX, UDP)
             self.__add_port(NGINX, TCP)
-            logger.info(f"Forwardind port changed from {PORT[HTTPD]} -> {PORT[NGINX]}")
+            logger.info(f"Forwarding port changed from {PORT[HTTPD]} -> {PORT[NGINX]}")
         elif container == HTTPD:
             self.__remove_port(NGINX, UDP)
             self.__remove_port(NGINX, TCP)
             self.__add_port(HTTPD, UDP)
             self.__add_port(HTTPD, TCP)
-            logger.info(f"Forwardind port changed from {PORT[NGINX]} -> {PORT[HTTPD]}")
+            logger.info(f"Forwarding port changed from {PORT[NGINX]} -> {PORT[HTTPD]}")
         else:
             raise ValueError(f"Only [{NGINX}, {HTTPD}] are available when swapping.")
             

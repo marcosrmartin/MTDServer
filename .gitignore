@@ -312,5 +312,7 @@ typings/
 # compilation
 dist/
 *.pyc
-.coverage
+.coverage*
+.stats*
 coverage.xml
+tests/results/

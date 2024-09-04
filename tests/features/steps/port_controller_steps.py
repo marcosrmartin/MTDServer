@@ -1,7 +1,7 @@
 import unittest
 from behave import when, then, given, use_step_matcher
 from mass import PortController, NGINX, HTTPD, PORT, PROXY
-from common.helpers import *
+from tests.common.helpers import *
 import re
 
 @given('I have a running firewalld service')

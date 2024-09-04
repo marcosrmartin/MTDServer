@@ -3,12 +3,12 @@ import time
 import signal
 import asyncio
 import unittest
-from common.helpers import * 
+from tests.common.helpers import * 
 from behave import when, then, given
 from behave.api.async_step import async_run_until_complete, use_or_create_async_context, AsyncContext
 
-from features.steps.container_controller_steps import *
-from features.steps.port_controller_steps import *
+from tests.features.steps.container_controller_steps import *
+from tests.features.steps.port_controller_steps import *
 from mass import MTDController
 
 @when('I create a MTDController with {duration} duration, {lower} lower and {upper} upper')
