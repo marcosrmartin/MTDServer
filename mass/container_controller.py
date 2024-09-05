@@ -11,7 +11,8 @@ class ContainerController:
     def __init__(self, container=NGINX):
         self._client = docker.from_env()
         self._volume = {
-            os.getcwd()+'/html': {'bind': '/var/www/localhost/htdocs', 'mode': 'ro'}
+            NGINX : { os.getcwd()+'/html': {'bind': '/var/www/localhost/htdocs', 'mode': 'ro'}},
+            HTTPD : { os.getcwd()+'/html': {'bind': '/usr/local/apache2/htdocs', 'mode': 'ro'}}
         }
         self._port_bindings_httpd = {PORT[PROXY]:PORT[HTTPD]}
         self._port_bindings_nginx = {PORT[PROXY]:PORT[NGINX]}
@@ -45,8 +46,9 @@ class ContainerController:
             raise Exception
 
         ports = self._port_bindings_nginx if container_name == NGINX.lower() else self._port_bindings_httpd
+        volume = self._volume[NGINX] if container_name == NGINX.lower() else self._volume[HTTPD]
         try:
-            container = self._client.containers.run(container_name, name=container_name, detach=True, auto_remove=True, volumes=self._volume, ports=ports)
+            container = self._client.containers.run(container_name, name=container_name, detach=True, auto_remove=True, volumes=volume, ports=ports)
             logger.info(f"{container.name} container settled up.")
             self._active_containers.append(container)
         except docker.errors.ImageNotFound:
@@ -65,7 +67,8 @@ class ContainerController:
             if 'removal of container' in str(e) and 'is already in progress' in str(e):
                 logger.info(f"The {container.name} removing is already in progress.")
                 pass
-            logger.error(f"Docker API error: {str(e)}")
+            else:
+                logger.error(f"Docker API error: {str(e)}")
         except Exception as e:
             logger.error(f"Unexpected error: {str(e)}")
 

@@ -63,7 +63,7 @@ class MTDController:
                 self.__switch()
             if get_shutdown():
                 logger.error('MTD run stopped by user')
-                raise ValueError(f"MTD run stopped by user.")
+                # raise ValueError(f"MTD run stopped by user.")
             return True
         except Exception as e:
             logger.error(str(e))
