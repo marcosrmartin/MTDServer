@@ -24,7 +24,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        ./setup.sh
+        sudo bash setup.sh
         poe images
 
     - name: Check syntax
