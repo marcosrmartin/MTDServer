@@ -1,0 +1,45 @@
+name: Behave Tests
+
+on:
+  push:
+    paths:
+      -'mass/*'
+
+  pull_request:
+    paths:
+      - 'mass/*'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: Install dependencies
+      run: |
+          sudo apt-get remove -y containerd
+        sudo bash setup.sh
+        poe images
+
+    - name: Check syntax
+      run: |
+        poetry check
+
+    - name: Run Behave tests
+      run: |
+        poe coverage
+
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        verbose: true
+        files: ../coverage.xml
+        token: ${{ secrets.CODECOV_TOKEN }}
+

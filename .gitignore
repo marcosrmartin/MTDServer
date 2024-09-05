@@ -309,3 +309,10 @@ typings/
 # emacs
 *~
 
+# compilation
+dist/
+*.pyc
+.coverage*
+.stats*
+coverage.xml
+tests/results/

@@ -207,3 +207,66 @@ La elección será entre: alpine, alpaquita-musl, alpaquita-glibc, distroless-ba
 En la comparativa anterior comprobamos que no hay gran diferencia de uso de memoria entre las candidatas. Excepto las alpaquita de las cuales no tenemos información de sus CVEs, y que son descartadas por esto, el resto son seguras.
 
 Aunque no hay mucha diferencia entre ambas alpine es superior, en tres de los cuatro criterios a tener en cuenta, a la imagen \textit{distroless}, por lo que se utilizará una imagen que tenga alpine como punto de partida para ambas imágenes. 
+
+\section{Implementación MTD}
+La solución seleccionada fue el MASS, desarrollado por Cimone Le Wright-Hamor. Este MTD se basa en la rotación de dos servidores, uno Apache y otro Nginx, para aumentar la protección de los servidores. El funcionamiento normal del MTD se podría ver como:
+
+\begin{algorithm}
+\caption{MASS workflow}\label{mass:algorithm}
+    \begin{algorithmic}[1]
+        \Function{switch}{}
+            \State $container \gets \textsc{contenedor en uso}$
+            \If{$container == NGINX$}
+                \State Crear contenedor HTTPD
+                \State Redirigir el tráfico hacia el puerto del HTTPD
+                \State Eliminar el contenedor NGINX
+            \Else
+                \If{$container == HTTPD$}
+                    \State Crear contenedor NGINX
+                    \State Redirigir el tráfico hacia el puerto del NGINX
+                    \State Eliminar el contenedor HTTPD
+                \EndIf
+            \EndIf
+        \EndFunction
+
+        \Function{start}{rango\_arriba, rango\_abajo, duración}
+            \State $SERVER \gets NGINX$
+            \While{$tiempo \l duración$}
+                \State $tiempo\_espera \gets \textsc{Valor aleatorio}(rango\_arriba , rango\_abajo)$
+                \State \textsc{sleep}(tiempo\_espera)
+                \State \textsc{switch}\Comment{Rota el servidor en uso}
+            \EndWhile
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+
+Donde originalmente tiene esta estructura:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{./imagenes/mass-structure.png}
+    \caption{Estructura original del MASS con flujo de tráfico.\cite{MTD-DARE-DIM-MASS}}
+\end{figure}
+
+\begin{itemize}
+    \item Controlador del MTD: el cual es el encargado de controlar el tiempo y activar el cambio de servidor. Soporta tanto rotación en intervalos fijos como entre un rango de tiempos.
+    \item Controlador de contenedores: es el encargado de encender y matar los contenedores con los servidores.
+    \item Controlador de puertos: es el encargado de controlar el \textit{firewall} para redirigir el tráfico desde el puerto 80 a el puerto interno del servidor activo (8008 y 8009). 
+\end{itemize}
+
+En la implementación realizada se han separado el controlador de contenedores del de puertos, siendo ambos controlados directamente por el controlador del MTD. Esta representación se puede ver en el siguiente diagrama de clases.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{./imagenes/clases.png}
+    \caption{Diagrama de clases de la implementación.}
+\end{figure}
+
+
+\section{Tests}
+Para comprobar si la solución se ajusta a los requisitos se han desarrollado los siguientes tests:
+\begin{itemize} 
+    \item Uso de CPU en reposo: para ver como afecta la rotación de los servidores a el uso normal del servidor. 
+    \item Rendimiento: para comprobar cuanta carga de peticiones puede soportar y como afecta al uso de CPU.
+    \item Explotación: se ha explotado una vulnerabilidad en uno de los dos servidores para ver si la rotación ayuda a mitigar el tiempo de exposición.
+\end{itemize}
+
