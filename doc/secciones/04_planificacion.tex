@@ -35,26 +35,121 @@ Aplicando el desarrollo ágil a estos \textit{milestones}, se desarrollarán de 
 % \section{Temporización}
 % Hacer gráfica cuando se tenga el total de horas
 
-\section{Costes}
-\begin{table}[H]
-	\centering
-	\begin{tabular}{| l | l | r |}
-        \hline
-        \textbf{Concepto} & \textbf{Materiales} & \textbf{Precio} \\
-        \hline
-        Hardware	& Ordenador y periféricos & Amortización* 308.75 €/año\\
-        Personal 	& Ingeniero Junior	& 18000-23000 al año \\
-        Software 	& Software libre gratuito & 0 € \\
-        % Recursos en la nube 	& GitHub plan gratuito & 0 € \\
-        \hline
-        % Coste total 			& x horas de desarrollo & x-x € \\
-        \hline
-	\end{tabular}
-	\caption{Costes estimados del proyecto.}
-\end{table}
+\section{Presupuesto}
 
-% https://twitter.com/isagasti/status/1593923910617251841
-*Amortización aplicando el coeficiente máximo de amortización lineal para el grupo ''equipos para procesos de información''\cite{amortizacion}. Se incluye todo el equipo informático como conjunto operativo. Coste de compra total 1235 €, 1100 € ordenador y 135 € periféricos.
+\subsection{Hardware}
+
+El equipo utilizado en el proyecto, dentro del grupo de equipos para procesos de información, tiene un coste inicial de 1235 € y se amortiza utilizando el coeficiente máximo de amortización lineal del 33\% anual (equipos para procesos de información)\cite{amortizacion}, equivalente a una vida útil de 3 años. La amortización anual del equipo se calcula de la siguiente manera:
+
+\[
+\text{Amortización Anual} = \frac{\text{Coste Inicial} \times \text{Coeficiente de Amortización}}{100} = \frac{1235 \, \text{€} \times 33}{100} = 407.55 \, \text{€}
+\]
+
+Dado que la duración del proyecto ha sido de 5 meses, la amortización correspondiente a este período se calcula proporcionalmente:
+
+\[
+\text{Amortización del Proyecto} = \text{Amortización Anual} \times \frac{\text{Meses del Proyecto}}{12 \, \text{meses}}
+\]
+
+Sustituyendo los valores correspondientes:
+
+\[
+\text{Amortización del Proyecto} = 407.55 \, \text{€} \times \frac{5}{12} = 169.81 \, \text{€}
+\]
+
+Por lo tanto, el coste asociado a la amortización del equipo durante el período de desarrollo del proyecto es de 169,81 €.
+
+\section{Personal}
+El siguiente desglose muestra los costes mensuales y el coste total para los 5 meses del proyecto, tanto para la base mínima como la base máxima de cotización de un ingeniero informático en España\cite{cotizacion}.
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{lrr}
+        \toprule
+        \textbf{Concepto} & \textbf{Coste Mensual (€)} & \textbf{Coste 5 Meses (€)} \\
+        \midrule
+        Base Mínima de Cotización & 1.847,40 & 9.237,00 \\
+        Cotización Empresa (Base Mínima) & 435,98 & 2.179,90 \\
+        Cotización Trabajador (Base Mínima) & 86,63 & 433,15 \\
+        \textbf{Total (Base Mínima)} & \textbf{2.369,01} & \textbf{11.845,05} \\
+        \midrule
+        Base Máxima de Cotización & 4.720,50 & 23.602,50 \\
+        Cotización Empresa (Base Máxima) & 1.113,04 & 5.565,20 \\
+        Cotización Trabajador (Base Máxima) & 221,87 & 1.109,35 \\
+        \textbf{Total (Base Máxima)} & \textbf{6.055,41} & \textbf{30.277,05} \\
+        \bottomrule
+    \end{tabular}
+    \caption{Desglose de costes mensuales y totales para 5 meses en base mínima y máxima de cotización para un ingeniero informático en 2024.}
+    \end{table}
+        
+    
+\section{Otros}
+    El siguiente desglose muestra los costes indirectos asociados al proyecto, tales como electricidad, internet, y otros servicios.
+
+    \begin{itemize}
+        \item \textbf{Potencia media de un ordenador}: 300 W (0.3 kWh).
+        \item \textbf{Horas de uso diarias}: 8 horas.
+        \item \textbf{Días laborables al mes}: 22 días.
+    \end{itemize}
+    
+    Con el precio de 0,1669 €/kWh:
+    
+    \[
+    \text{Consumo mensual} = 0.3 \, \text{kWh} \times 8 \, \text{h/día} \times 22 \, \text{días} = 52.8 \, \text{kWh}
+    \]
+    
+    \[
+    \text{Coste de electricidad mensual} = 52.8 \, \text{kWh} \times 0.1669 \, \text{€/kWh} = 8.81 \, \text{€}
+    \]
+    
+    \begin{table}[h!]
+    \centering
+    \begin{tabular}{lrr}
+        \toprule
+        \textbf{Concepto} & \textbf{Coste Mensual (€)} & \textbf{Coste 5 Meses (€)} \\
+        \midrule
+        Electricidad & 8,81 & 44,05 \\
+        Internet & 20,00 & 100,00 \\
+        Otros & 20,00 & 100,00 \\
+        \textbf{Total} & \textbf{48,81} & \textbf{244,05} \\
+        \bottomrule
+    \end{tabular}
+    \caption{Desglose de costes indirectos mensuales y totales para 5 meses.}
+    \end{table}
+    
+
+    \subsection{Coste Total de Personal y Hardware}
+
+    El siguiente desglose muestra los costes totales para personal adicional y hardware durante los 5 meses del proyecto.
+    
+
+    \begin{table}[h!]
+        \centering
+        \adjustbox{max width=\textwidth}{
+        \begin{tabular}{lrr}
+            \toprule
+            \textbf{Concepto} & \textbf{Coste Mensual (€)} & \textbf{Coste Total (5 Meses) (€)} \\
+            \midrule
+            \textbf{Personal} & & \\
+            Ingeniero Informático (Base Mínima) & 2.369,01 & 11.845,05 \\
+            \textbf{Licencias} & & \\
+            Software Libre gratuíto & 0 & 0 \\
+            \midrule
+            \textbf{Hardware} & & \\
+            Ordenador de Desarrollo (Amortización) & 56.61 & 169,81 \\
+            \midrule
+            \textbf{Costes Indirectos} & & \\
+            Electricidad & 8,81 & 44,05 \\
+            Internet & 20,00 & 100,00 \\
+            Otros & 20,00 & 100,00 \\
+            \midrule
+            \textbf{Total General} & & \textbf{12.255,75} \\
+            \bottomrule
+        \end{tabular}
+        }
+        \caption{Coste total de personal, hardware y costes indirectos durante 5 meses.}
+        \end{table}
+            
 
 
 % Ir añadiendo con las implementaciones y toma de dicisiones.
