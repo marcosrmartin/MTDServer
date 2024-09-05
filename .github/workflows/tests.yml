@@ -24,6 +24,7 @@ jobs:
 
     - name: Install dependencies
       run: |
+          sudo apt-get remove -y containerd
         sudo bash setup.sh
         poe images
 
