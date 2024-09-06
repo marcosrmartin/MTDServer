@@ -221,9 +221,13 @@ Debido a estas consideraciones, la herramienta seleccionada para la medición de
 
 
 \section{Implementación MTD}
-La solución seleccionada fue el MASS, desarrollado por Cimone Le Wright-Hamor. Este MTD se basa en la rotación de dos servidores, uno Apache y otro Nginx, para aumentar la protección de los servidores. El funcionamiento normal del MTD se podría ver como:
+La solución seleccionada es MASS, desarrollada por Cimone Le Wright-Hamor. Este MTD se basa en la rotación de dos servidores: uno con Apache y otro con Nginx, con el objetivo de incrementar la protección de los sistemas. Para llevar a cabo la rotación, se utiliza Firewalld, un firewall dinámico que permite realizar modificaciones en tiempo de ejecución sin necesidad de reiniciar, lo que evita la pérdida de paquetes.
 
-\begin{algorithm}
+Además, ambos servidores se ejecutan en contenedores Docker, los cuales son restablecidos a un estado limpio tras cada rotación. Esto significa que, en lugar de reutilizar un servidor previamente creado, se genera una nueva copia para cada ciclo. Esta estrategia garantiza que, si uno de los servidores es comprometido, la vulnerabilidad deberá ser explotada nuevamente para obtener control, lo que dificulta significativamente la persistencia de los ataques.
+
+El funcionamiento normal del MASS se podría ver como:
+
+\begin{algorithm}[H]
 \caption{MASS workflow}\label{mass:algorithm}
     \begin{algorithmic}[1]
         \Function{switch}{}
@@ -274,21 +278,118 @@ En la implementación realizada se han separado el controlador de contenedores d
 \end{figure}
 
 \section{Tests}
-Para evaluar el comportamiento y rendimiento del MTD, se han llevado a cabo diversas pruebas, incluyendo pruebas de funcionalidad, integración, rendimiento bajo sobrecarga, uso de CPU en reposo, y pruebas de explotación.
+Para evaluar el comportamiento y rendimiento del MASS, se han llevado a cabo diversas pruebas, incluyendo pruebas de funcionalidad, integración, rendimiento bajo sobrecarga, uso de CPU en reposo, y pruebas de explotación.
 
+La siguiente notación será utilizada para diferenciar los diferentes MASS evaluados:
 
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|cc|c|}
+        \hline
+        \textbf{Servidor} & \multicolumn{2}{c|}{\textbf{Límite de tiempo (s)}} & \textbf{Notación} \\ 
+        \cline{2-3}
+        & \textbf{Lower (i)} & \textbf{Upper (j)} & \\ 
+        \hline
+        MTD & i & j & MTD$[i,j]$ \\ 
+        MASS & 15 & 15 & MASS$[15,15]$ \\ 
+        MASS & 15 & 20 & MASS$[15,20]$ \\ 
+        MASS & 20 & 20 & MASS$[20,20]$ \\ 
+        \hline
+    \end{tabular}
+    \caption{Notación para los MTD, donde se rota cada $t$ segundos, $t \in \mathbb{R}, i \leq t \leq j$.}
+\end{table}
+
+    
 \subsection{Funcionalidad e integración}
 Las pruebas de funcionalidad e integración se han realizado utilizando la herramienta Behave, la cual permite la ejecución de tests automatizados basados en escenarios. No se ha establecido una separación estricta entre ambos tipos de pruebas, ya que los controladores tanto de los puertos como de los contenedores emplean sus respectivos clientes para comunicarse con Docker y Firewalld, lo que implica un proceso de integración inherente en las pruebas funcionales.
 
 Adicionalmente, se ha implementado Codecov para generar un informe sobre la cobertura del código, lo que facilita la identificación de las partes del sistema que han sido sometidas a pruebas y el porcentaje de cobertura alcanzado. Esto nos permite garantizar un nivel mínimo de calidad y robustez en el código.
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{./imagenes/coverage.png}
+    \caption{Cobertura del código}
+\end{figure}
+
 \subsection{Capacidad procesamiento de las peticiones}
 Para medir la capacidad del MTD bajo carga, se ha utilizado Apache Benchmark desde una máquina externa. Mediante esta herramienta, se ha realizado una prueba de estrés al módulo, permitiendo observar su comportamiento y capacidad de respuesta ante un elevado número de peticiones simultáneas.
+
+Sometiendo los diferentes servidores a un test con una concurrencia de 100 y 150,000 peticiones en total, se ha observado lo siguiente:
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{./imagenes/comparison.png}
+    \caption{Comparación de percentiles de tiempo de respuesta a las peticiones}
+\end{figure}
+
+Como se puede apreciar en la figura anterior, se comparan los tiempos de respuesta de los diferentes servidores bajo prueba para diferentes percentiles. En todos los casos, se utilizó una concurrencia de 100 conexiones simultáneas y un total de 150,000 solicitudes realizadas.
+
+Cabe destacar que no se ha perdido ni una petición de las realizadas, lo que indica que el rendimiento de los servidores bajo estas condiciones de prueba ha sido confiable en cuanto a la entrega de todas las solicitudes sin errores.
 
 
 \subsection{Rendimiento en reposo}
 Se ha evaluado el rendimiento del sistema en reposo sin ninguna interacción del usuario. Para esta evaluación, se ha empleado la herramienta sar\cite{sar}, la cual permite monitorizar el uso de recursos del sistema, en un entorno sin carga activa.
 
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Imagen} & \textbf{Promedio de Uso de CPU (\%)} & \textbf{Desviación Estándar (\%)} \\ 
+        \hline
+        Nginx & 2.18 & 1.76 \\ 
+        Httpd & 2.19 & 2.0 \\ 
+        MASS$[15,15]$ & 7.86 & 13.11 \\ 
+        MASS$[15,20]$ & 7.82 & 12.78 \\ 
+        MASS$[20,20]$ & 7.42 & 12.55 \\ 
+        \hline
+    \end{tabular}
+    \caption{Comparativa del uso de CPU en reposo}
+    \end{table}
+
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./imagenes/nginx.csv.png}
+            \caption{Uso de CPU Nginx}
+            \label{fig:imagen1}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./imagenes/httpd.csv.png} 
+            \caption{Uso de CPU Httpd}
+            \label{fig:imagen2}
+        \end{subfigure}
+        
+        \vspace{0.5cm} 
+        
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./imagenes/mtd-no-petition_u15_l15.csv.png}  
+            \caption{Uso de CPU MASS$[15,15]$}
+            \label{fig:imagen3}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./imagenes/mtd-no-petition_u20_l15.csv.png} 
+            \caption{Uso de CPU MASS$[15,20]$}
+            \label{fig:imagen4}
+        \end{subfigure}
+
+        \vspace{0.5cm} 
+
+        \begin{subfigure}[H]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./imagenes/mtd-no-petition_u20_l20.csv.png} 
+            \caption{Uso de CPU MASS$[20,20]$}
+            \label{fig:imagen5}
+        \end{subfigure}
+        \caption{Gráficas con el uso de CPU en diferentes servidores}
+    \end{figure}
+    
+    
 
 \subsection{Pruebas de explotación}
 Entre las pruebas realizadas, se ha incluido la explotación de la vulnerabilidad CVE-2021-41773, descubierta en versiones anteriores del servidor web Apache HTTP. Esta vulnerabilidad, que afecta a Apache 2.4.49 y 2.4.50, permite a un atacante no autenticado realizar un path traversal para acceder a archivos fuera de los directorios permitidos. En casos más graves, la explotación de esta vulnerabilidad puede conducir a la ejecución remota de código (RCE), lo que da al atacante control sobre el sistema afectado. Para más información sobre esta vulnerabilidad, se ha utilizado el análisis detallado disponible en el blog de HackTheBox\cite{cve-2021-41773}.
@@ -296,3 +397,19 @@ Entre las pruebas realizadas, se ha incluido la explotación de la vulnerabilida
 El ataque se realizó desde una máquina externa, enviando solicitudes HTTP con el fin de explotar la vulnerabilidad. Estas peticiones contenían rutas que intentaban ejecutar comandos arbitrarios. Para verificar si el ataque era exitoso y si se había logrado la ejecución remota de código, se utilizó una técnica de escucha en la VM donde está alojado el contenedor.
 
 Específicamente, la petición HTTP inyecta una petición con \cite{netcat} para enviar una traza o señal al localhost, donde habia un puerto habilitado herramienta Netcat (nc) en modo escucha. Netcat fue utilizado para recibir la conexión entrante como prueba de que el servidor había ejecutado el comando enviado desde la máquina externa.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Servidor} & \textbf{Ataques exitosos \%} \\ 
+        \hline
+        Nginx & - \\ 
+        Httpd & 100 \\ 
+        MASS$[15,15]$ & 46 \\ 
+        MASS$[15,20]$ & 47.2 \\ 
+        MASS$[20,20]$ & 44.4 \\ 
+        \hline
+    \end{tabular}
+    \caption{Comparativa del número de ataques exitosos}
+    \end{table}
