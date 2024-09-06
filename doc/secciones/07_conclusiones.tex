@@ -1,0 +1,24 @@
+\chapter{Conclusiones y trabajos futuros}
+
+En este capítulo se presentarán las conclusiones derivadas del trabajo realizado, con especial énfasis en las pruebas y los resultados obtenidos a lo largo del desarrollo del proyecto. El enfoque en las pruebas de funcionalidad, integración, rendimiento y seguridad permitió evaluar de manera exhaustiva la calidad y robustez del sistema. A partir de estas evaluaciones, se identificaron puntos fuertes y áreas de mejora en el desarrollo del proyecto.
+
+Además de las conclusiones, se explorarán las posibles líneas de trabajo futuro que podrían ampliar o mejorar el proyecto actual. Estas propuestas incluyen mejoras en la metodología de pruebas, optimización del rendimiento bajo distintas condiciones y la implementación de nuevas características que permitan adaptarse a futuros cambios en el entorno de trabajo. Este análisis ofrece una guía para las fases posteriores, tanto en el perfeccionamiento del producto como en su ampliación a nuevas áreas de aplicación.
+
+\section{Conclusiones}
+Apache Benchmark permitió medir la capacidad del MASS bajo carga. Los resultados muestran que los servidores sometidos a la prueba (Nginx, Httpd, y las diferentes configuraciones de MASS) lograron manejar 150,000 solicitudes concurrentes sin pérdidas de peticiones. Sin embargo, al comparar los tiempos de respuesta, los servidores MASS mostraron tiempos más altos en los percentiles superiores en comparación con Nginx. Esto es esperable, ya que MASS rota entre Apache y Nginx, y dado que Apache tiene una capacidad de respuesta más baja, obtenemos tiempos de respuesta intermedios. Por lo tanto, este es un resultado esperado y positivo, ya que el sistema sigue siendo capaz de gestionar una carga elevada sin comprometer la integridad de las solicitudes o sufrir pérdidas de peticiones.
+
+El uso de la herramienta sar para monitorizar el uso de CPU en reposo muestra diferencias notables entre las configuraciones. Mientras que Nginx y Httpd mantienen un bajo uso de CPU (~2.18\% y ~2.19\% respectivamente), las configuraciones MASS muestran un uso significativamente más alto, alcanzando hasta un promedio de 7.86\% en la configuración MASS[15,15]. Esto se debe a la naturaleza de las rotaciones periódicas de los contenedores en MASS, lo que genera mayor actividad en segundo plano incluso en estado de reposo. 
+
+Las configuraciones de MASS mostraron una tasa de éxito de ataque significativamente más baja, oscilando entre el 44\% y el 47\%, lo que indica una mayor resistencia a este tipo de ataques, versus el 100\% que tiene el servidor HTTPD. Al estar tan cerca del 50\% se puede suponer que el ataque siempre funcionará si el servidor HTTPD es expuesto.
+
+Por lo que en términos generales, MASS cumple con su objetivo de proporcionar un sistema capaz de gestionar altas cargas sin pérdidas de peticiones, aunque con un uso de CPU más elevado en reposo. En el caso de que uno de los servidores sea vulnerable, el sistema será vulnerable tanto tiempo como este servidor esté expuesto, lo cual es uno de los problemas intrínsecos de esta tecnología. Por tanto, el sistema demuestra ser una solución robusta y confiable, cumpliendo con los requisitos esperados en cuanto a rendimiento y seguridad y siendo autocontenido.
+
+
+\section{Trabajo futuro}
+Para continuar mejorando el rendimiento y la seguridad del sistema MASS, se proponen las siguientes líneas de trabajo futuro:
+\begin{itemize}
+    \item \textbf{Implementación de un IDS (Sistema de Detección de Intrusos) con rotación basada en eventos}: La integración de un IDS permitirá monitorear en tiempo real la actividad de los servidores y detectar posibles amenazas o comportamientos anómalos. Además, se plantea combinar este sistema de detección con una rotación híbrida basada en eventos. Esto significa que los contenedores no solo rotarán en intervalos de tiempo predefinidos, sino que también lo harán en respuesta a eventos detectados por el IDS, como intentos de ataque, picos inusuales de tráfico o cambios en los recursos del sistema. De esta manera, el sistema podrá reaccionar de forma proactiva ante posibles amenazas, fortaleciendo su capacidad de defensa sin comprometer el rendimiento. Además, se mitigaría un poco el problema de \ref{caza}, ya que se reduciría el tiempo de exposición del servidor vulnerable.
+    \item \textbf{Restauración de contenedores desde snapshots}: Implementar la capacidad de restaurar contenedores desde \textit{snapshots} permitirá una recuperación rápida y eficiente en caso de fallos o ataques. Con la restauración desde snapshots, el sistema podrá volver a un estado seguro y funcional en un tiempo mínimo, mejorando la resiliencia y el rendimiento.
+\end{itemize}
+
+Estas mejoras permitirán que el sistema MASS evolucione hacia una solución más dinámica, capaz de adaptarse a situaciones de alto riesgo, garantizando la seguridad y el rendimiento de manera más efectiva.
