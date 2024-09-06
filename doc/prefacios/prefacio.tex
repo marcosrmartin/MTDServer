@@ -1,7 +1,7 @@
 \thispagestyle{empty}
 
 \begin{center}
-{\large\bfseries Título \\ Subtítulo }\\
+{\large\bfseries Mejoras en un sistema de defensa móvil ante ataques de Internet \\ Rotación de servidores como defensa dinámica }\\
 \end{center}
 \begin{center}
 	Marcos Romero Martín\\
@@ -10,11 +10,17 @@
 %\vspace{0.7cm}
 
 \vspace{0.5cm}
-\noindent\textbf{Palabras clave}: \textit{software libre}
+\noindent\textbf{Palabras clave}: \textit{software libre}, \textit{moving target defense},  \textit{rotacion}
 \vspace{0.7cm}
 
 \noindent\textbf{Resumen}\\
 	
+La creciente sofisticación de los ataques a servicios web ha puesto en evidencia las limitaciones de las defensas tradicionales basadas en sistemas estáticos, donde los atacantes tienen tiempo suficiente para estudiar y explotar vulnerabilidades.
+
+En este contexto, la necesidad de un Moving Target Defense (MTD) surge como una solución efectiva para aumentar la defensa. Al cambiar dinámicamente el entorno operativo, el MTD introduce imprevisibilidad, dificultando que los atacantes obtengan información precisa sobre la infraestructura a comprometer.
+
+El documento presenta la implementación y evaluación de un sistema de defensa dinámica (MTD) para servidores web, con el objetivo de mejorar la seguridad ante ataques. A través de una revisión del estado del arte, se establece el contexto teórico que sustenta la solución propuesta. La planificación del proyecto se estructura mediante historias de usuario, siguiendo un desarrollo ágil. Posteriormente, se describe la implementación técnica del MASS, un sistema que rota servidores Apache y Nginx utilizando contenedores Docker, seguido de pruebas que evalúan el rendimiento, el consumo de recursos y la resistencia a vulnerabilidades. Aportando una solución autocontenida de código abierto a dicho problema. Finalmente, se presentan conclusiones y sugerencias para futuras mejoras, como la integración de un sistema de detección de intrusos (IDS) y la restauración desde snapshots.
+
 
 \cleardoublepage
 
@@ -25,11 +31,15 @@
 	Marcos Romero Martín\\
 \end{center}
 \vspace{0.5cm}
-\noindent\textbf{Keywords}: \textit{open source}, \textit{floss}
+\noindent\textbf{Keywords}: \textit{open source}, \textit{floss}, \textit{moving target defense},  \textit{rotation}
 \vspace{0.7cm}
 
 \noindent\textbf{Abstract}\\
+The growing sophistication of attacks on web services has highlighted the limitations of traditional defenses based on static systems, where attackers have enough time to study and exploit vulnerabilities.
 
+In this context, the need for a Moving Target Defense (MTD) emerges as an effective solution to increase defense. By dynamically changing the operating environment, MTD introduces unpredictability, making it difficult for attackers to obtain accurate information about the infrastructure to be compromised.
+
+The paper presents the implementation and evaluation of a dynamic defense system (MTD) for web servers, with the objective of improving security against attacks. Through a review of the state of the art, the theoretical context that supports the proposed solution is established. The project planning is structured by means of user stories, following an agile development. Subsequently, the technical implementation of MASS, a system that rotates Apache and Nginx servers using Docker containers, is described, followed by tests that evaluate performance, resource consumption and vulnerability resistance. Providing a self-contained open source solution to that problem. Finally, conclusions and suggestions for future improvements are presented, such as the integration of an intrusion detection system (IDS) and restoration from snapshots.
 
 \cleardoublepage
 
@@ -45,7 +55,7 @@ D. \textbf{Juan Julián Merelo Guervós}, Profesor(a) del ...
 
 \vspace{0.5cm}
 
-Que el presente trabajo, titulado \textit{\textbf{MTD Server}},
+Que el presente trabajo, titulado \textit{\textbf{Mejoras en un sistema de defensa móvil ante ataques de Internet}},
 ha sido realizado bajo mi supervisión por \textbf{Marcos Romero Martín}, y autorizo la defensa de dicho trabajo ante el tribunal
 que corresponda.
 
@@ -55,10 +65,11 @@ Y para que conste, expiden y firman el presente informe en Granada a noviembre d
 
 \vspace{1cm}
 
-\textbf{El/la director(a)/es: }
+\textbf{El director: }
 
 \vspace{5cm}
 
-\noindent \textbf{(Juan Julián Merelo Guervós)}
+\noindent \textbf{Juan Julián Merelo Guervós}
 
-% \chapter*{Agradecimientos}
+\chapter*{Agradecimientos}
+A mi familia y amigos, por aguantarme, que no es poco. También quiero agradecer, en especial, a JJ por tutorizar este trabajo.
