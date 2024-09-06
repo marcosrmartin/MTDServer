@@ -23,7 +23,7 @@ A partir de estas historias se creará el camino a seguir para el desarrollo del
 Seran aquellas peticiones que ayudaran a desenvolver el desarrollo, no son requisitos del cliente:
 
 \begin{itemize}
-    \item \href{https://github.com/marcosrmartin/MTD_Server/issues/16}{HD-1}: Como programador, tengo que preparar el entorno para el desarrollo del \href{https://github.com/marcosrmartin/MTD_Server/commit/20df5bb6f5af3de7e557c254ad47089db34845aa}{MTD}. Entre mis necesidades se encuentran realizar test sobre las implementaciones, gestionar sus dependencias y facilitar el proceso de instalación. Todo esto me permitirá trabajar más cómodamente, a la vez que mejorar el flujo de trabajo.
+    \item \href{https://github.com/marcosrmartin/MTD_Server/issues/16}{[HD-1]}: Como programador, tengo que preparar el entorno para el desarrollo del \href{https://github.com/marcosrmartin/MTD_Server/commit/20df5bb6f5af3de7e557c254ad47089db34845aa}{MTD}. Entre mis necesidades se encuentran realizar test sobre las implementaciones, gestionar sus dependencias y facilitar el proceso de instalación. Todo esto me permitirá trabajar más cómodamente, a la vez que mejorar el flujo de trabajo.
 \end{itemize}
 
 \section{Seguimiento del desarrollo - Hitos}
@@ -32,8 +32,44 @@ Seran aquellas peticiones que ayudaran a desenvolver el desarrollo, no son requi
 
 Aplicando el desarrollo ágil a estos \textit{milestones}, se desarrollarán de forma incremental, es decir que el conjunto de hitos sean una serie de escalones. Esto se hace para reducir el plazo de iteraciones y facilitar la toma de dicisiones. Dichos escalones serán planificados partiendo de las peticiones hechas por los usuarios(HUs).
 
-% \section{Temporización}
-% Hacer gráfica cuando se tenga el total de horas
+\section{Temporización}
+En el diagrama de Gantt que se presenta a continuación, se detallan las fases clave del proyecto, desde la investigación inicial hasta el desarrollo de los tests y la finalización de la memoria. El calendario cubre desde septiembre de 2023 hasta septiembre de 2024.
+
+\ganttset{calendar week text={}}
+
+\begin{ganttchart}[
+    hgrid,
+    vgrid,
+    x unit=0.3mm, % Ajustar el tamaño horizontal para que todo encaje
+    time slot format=isodate,
+    time slot unit=day,
+]{2023-09-01}{2024-09-06}
+    
+    % Título de los meses y semanas
+    \gantttitlecalendar{year, month=1, week} \\
+
+    % Ejemplos de grupos y tareas
+    \ganttbar{Investigación}{2023-09-01}{2023-10-03} \\
+    \ganttbar{Entorno LaTeX}{2023-09-14}{2023-10-15} \\
+    \ganttbar{Planificación}{2023-10-01}{2023-10-11} \\
+    \ganttbar{Entorno de pruebas}{2023-10-23}{2023-11-02} \\
+    
+    % Desarrollo del MTD en varios periodos, pero en la misma línea
+    \ganttbar{Desarrollo del MTD}{2023-12-22}{2024-01-02} % Fecha corregida
+    \ganttlinkedbar[inline]{}{2024-01-28}{2024-01-29} 
+    \ganttlinkedbar[inline]{}{2024-05-24}{2024-06-02} 
+    \ganttlinkedbar[inline]{}{2024-06-24}{2024-06-29} 
+    \ganttlinkedbar[inline]{}{2024-08-10}{2024-08-21} \\
+    
+    % Desarrollo de los tests
+    \ganttbar{Desarrollo de los tests}{2024-08-10}{2024-08-21}
+    \ganttlinkedbar[inline]{}{2024-08-31}{2024-09-05} \\
+    
+    % Terminar memoria
+    \ganttbar{Terminar memoria}{2024-09-02}{2024-09-06} \\
+    
+\end{ganttchart}
+    
 
 \section{Presupuesto}
 
@@ -155,3 +191,24 @@ El siguiente desglose muestra los costes mensuales y el coste total para los 5 m
 % Ir añadiendo con las implementaciones y toma de dicisiones.
 \section{Herramientas}
 A continuación se muestra un listado con las herramientas utilizadas en el desarrollo del proyecto:
+
+\begin{itemize}
+    \item \textbf{Apache Benchmark}\cite{ab}: Herramienta para realizar pruebas de carga en servidores web, midiendo su rendimiento con diferentes niveles de concurrencia.
+    \item \textbf{Behave}\cite{behave}: Framework para pruebas de comportamiento en Python, que sigue la metodología BDD (Behavior-Driven Development).
+    \item \textbf{Codecov}\cite{codecov}: Herramienta que mide la cobertura de código en pruebas automatizadas, proporcionando informes detallados.
+    \item \textbf{Docker}\cite{docker}: Plataforma que permite crear, desplegar y ejecutar aplicaciones en contenedores, asegurando portabilidad y eficiencia.
+    \item \textbf{Firewalld}\cite{firewalld}: Solución de administración de firewall para sistemas Linux, que permite la gestión dinámica de reglas de cortafuegos.
+    \item \textbf{Httpd}\cite{apache}: Servidor web Apache, utilizado para alojar y servir sitios web y aplicaciones mediante el protocolo HTTP.
+    \item \textbf{Latex}\cite{latex}: Sistema de composición de documentos de alta calidad, ampliamente utilizado en entornos académicos y técnicos.
+    \item \textbf{Make}\cite{make}: Herramienta de automatización que ejecuta tareas basadas en dependencias, comúnmente utilizada para compilar proyectos.
+    \item \textbf{Matplot}\cite{matplot}: Biblioteca de Python para la creación de gráficos y visualizaciones 2D, comúnmente utilizada en análisis de datos.
+    \item \textbf{Netcat}\cite{netcat}: Utilidad de red que permite la lectura y escritura en conexiones de red, utilizada para pruebas y depuración.
+    \item \textbf{Nginx}\cite{nginx}: Servidor web y proxy inverso, conocido por su alto rendimiento y capacidad para manejar grandes volúmenes de tráfico.
+    \item \textbf{Pandas}\cite{pandas}: Biblioteca de Python para el análisis y manipulación de datos, especialmente útil en estructuras como DataFrames.
+    \item \textbf{Poetry}\cite{poetry}: Herramienta de gestión de dependencias y empaquetado para proyectos de Python, que facilita la creación y distribución de paquetes.
+    \item \textbf{Poethepoet}\cite{poe}: Gestor de tareas ligero para proyectos de Python, integrado con Poetry, que permite ejecutar scripts de forma eficiente.
+    \item \textbf{Python}\cite{python}: Lenguaje de programación de alto nivel, conocido por su simplicidad y su versatilidad en diversas aplicaciones.
+    \item \textbf{Sar}\cite{sar}: Herramienta de monitorización de rendimiento del sistema, que proporciona estadísticas sobre el uso de recursos como CPU, memoria y disco.
+    \item \textbf{SSH}\cite{ssh}: Protocolo seguro para acceso remoto a sistemas, utilizado para gestionar servidores de manera remota.
+    \item \textbf{Sshpass}\cite{sshpass}: Herramienta para automatizar el uso de contraseñas en conexiones SSH, permitiendo scripts sin intervención del usuario.
+\end{itemize}
