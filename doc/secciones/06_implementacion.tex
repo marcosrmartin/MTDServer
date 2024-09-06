@@ -135,7 +135,7 @@ Por lo que atendiendo al consumo de recursos se selecciona el MASS.
 \subsection{Gestor de dependencias}
 Los criterios para elegir el gestor de dependencias, de mayor a menor prioridad, han sido:
 \begin{enumerate}
-    \item Soporte pyproject.toml (Ajustandose al PEP 518\cite{pep-pyproject}).
+    \item Soporte pyproject.toml (Ajustándose al PEP 518\cite{pep-pyproject}).
     \item Creación de entornos virtuales/gestión las dependencias de forma local.
     \item Rendimiento.
 \end{enumerate}
@@ -159,7 +159,7 @@ Donde se van a evaluar los siguientes gestores de dependencias: \textit{Pipenv, 
 
 Pip y pip-tools, no gestionan entornos virtuales, el resto de opciones si lo hace. Conda, mamba y sus versiones lite no tienen {\tt pyproject.toml}, en cuanto a pixi, este está basado sobre conda, pero genera en el directorio de trabajo su pixi.lock y pixi.toml, el cual no cumple con el estándar de pyproject.toml.
 
-Para evaluar su rendimiento nos basaremos en diferentes benchmarks\cite{pm-benchmark-shootout}. Donde observamos que poetry es el más rápido en realizar la instalación desde un lockfile, creación de este y en añadir un paquete. Además es el segundo en actualizar los paquetes. Sin embargo es el que más tarda en ser instalado. Ya que el gestor de dependencias será instalado una sola vez, vamos a priorizar los otros benchmarks. Por lo que tenemos a poetry como ganador ante PDM y pipenv.
+Para evaluar su rendimiento nos basaremos en diferentes benchmarks\cite{pm-benchmark-shootout}. Donde observamos que poetry es el más rápido en realizar la instalación desde un lockfile, creación de este y en añadir un paquete. Además, es el segundo en actualizar los paquetes. Sin embargo, es el que más tarda en ser instalado. Ya que el gestor de dependencias será instalado una sola vez, vamos a priorizar los otros benchmarks. Por lo que tenemos a poetry como ganador ante PDM y pipenv.
 
 Debido a que no se ha encontrado ningún benchmark sobre Hatch y Rye (este además de que está en un estado experimental), se utilizará poetry como gestor de dependencias.
 
@@ -187,7 +187,7 @@ Donde se van a evaluar los siguientes gestores de tareas: \textit{Poethepoet, Py
       \caption{Comparativa entre gestores de tareas.}
 \end{table}
 
-De las opciones anteriores, poethepoet es el que menos deuda técnica aporta al proyecto, ya que además de permitir funciones en Python como invoke, doit y pytask, permite utilizar shell, comandos y expresiones en Python directamente. Sumando que utiliza el fichero de configuración pyproject.toml, por lo que se evitarían ficheros extra.
+De las opciones anteriores, poethepoet es el que menos deuda técnica aporta al proyecto, ya que además de permitir funciones en Python como invoke, doit y pytask, permite utilizar shell, comandos y expresiones en Python directamente. Sumando que emplea el fichero de configuración pyproject.toml, por lo que se evitarían ficheros extra.
 
 
 \subsection{Test runner}
@@ -216,7 +216,7 @@ Donde se van a evaluar las siguientes herramientas: \textit{Pytest, Nose2, Unitt
 
 Se descartan todas excepto Pytest, Behave y Radish.
 
-La estructura de archivos entre estos apenas varía, todos utilizan \textit{steps}, \textit{features} y un fichero \textit{.ini} (el cual puede ser utilizado para cambiar la estructura).
+La estructura de archivos entre estos apenas varía, todos tienen \textit{steps}, \textit{features} y un fichero \textit{.ini} (el cual puede ser utilizado para cambiar la estructura).
 
 En este punto los tres son válidos en el proyecto, sin embargo, vamos a comparar algunas características para seleccionar uno:
 
@@ -249,7 +249,7 @@ En este punto los tres son válidos en el proyecto, sin embargo, vamos a compara
 \end{itemize}
 
 
-En esta comparativa se puede ver que Pytest se queda un poco atrás en la facilidad de uso de BDD, mientras que Radish es el que tiene más funcionalidades. Sin embargo estas funcionalidades, como el paralelismo, no se aplicarán a este proyecto, ya que los test modificarán iptables de la máquina donde se ejecute y levantará contenedores, aunque estas tareas podrían ser paralelizables, debido a su complejidad no se realizarán. Otra funcionalidad como los bucles de escenarios no será necesario y los escenarios como precondición podrían ser útiles en otro contexto, ya que este se podría utilizar para comprobar que el docker está corriendo correctamente, pero esto se adaptaría mejor en el \textit{setup} y \textit{teardown} (utilizando menos recursos), por lo que, aunque Radish brinda más funcionalidades, difícilmente serán adaptables a este proyecto, por lo que se va a utilizar Behave el cual cumple con los requisitos necesarios, es el que añade menos dependencias, es el más ligero y cuenta con mayor comunidad (dentro de BDD). Aunque este es marcado en Snyk advisor\cite{snyk} como inactivo, no lo es, ya que este utiliza la última versión en Pypi, la cual salió en 2018, sin embargo el proyecto se ha seguido desarrollando, solo que no cuenta con una nueva versión en Pypi. En Github se puede encontrar su propio versionado y \href{https://behave.readthedocs.io/en/latest/install/#using-the-github-repository}{como descargarlo}.
+En esta comparativa se puede ver que Pytest se queda un poco atrás en la facilidad de uso de BDD, mientras que Radish es el que tiene más funcionalidades. Sin embargo, estas funcionalidades, como el paralelismo, no se aplicarán a este proyecto, ya que los test modificarán iptables de la máquina donde se ejecute y levantará contenedores, aunque estas tareas podrían ser paralelizables, debido a su complejidad no se realizarán. Otra funcionalidad como los bucles de escenarios no será necesario y los escenarios como precondición podrían ser útiles en otro contexto, ya que este se podría utilizar para comprobar que el docker está corriendo correctamente, pero esto se adaptaría mejor en el \textit{setup} y \textit{teardown} (utilizando menos recursos), por lo que, aunque Radish brinda más funcionalidades, difícilmente serán adaptables a este proyecto, por lo que se va a utilizar Behave el cual cumple con los requisitos necesarios, es el que añade menos dependencias, es el más ligero y cuenta con mayor comunidad (dentro de BDD). Aunque este es marcado en Snyk advisor\cite{snyk} como inactivo, no lo es, ya que este utiliza la última versión en Pypi, la cual salió en 2018, no obstante, el proyecto se ha seguido desarrollando, solo que no cuenta con una nueva versión en Pypi. En Github se puede encontrar su propio versionado y \href{https://behave.readthedocs.io/en/latest/install/#using-the-github-repository}{como descargarlo}.
 
 
 \subsection{Librería de aserciones}
@@ -439,7 +439,7 @@ Sometiendo los diferentes servidores a un test con una concurrencia de 100 y 150
     \caption{Comparación de percentiles de tiempo de respuesta a las peticiones}
 \end{figure}
 
-Como se puede apreciar en la figura anterior, se comparan los tiempos de respuesta de los diferentes servidores bajo prueba para diferentes percentiles. En todos los casos, se utilizó una concurrencia de 100 conexiones simultáneas y un total de 150,000 solicitudes realizadas.
+Como se puede apreciar en la figura anterior, se comparan los tiempos de respuesta de los diferentes servidores para diferentes percentiles. En todos los casos, se utilizó una concurrencia de 100 conexiones simultáneas y un total de 150,000 solicitudes realizadas.
 
 Cabe destacar que no se ha perdido ni una petición de las realizadas, lo que indica que el rendimiento de los servidores bajo estas condiciones de prueba ha sido confiable en cuanto a la entrega de todas las solicitudes sin errores.
 
@@ -509,11 +509,11 @@ Se ha evaluado el rendimiento del sistema en reposo sin ninguna interacción del
     
 
 \subsection{Pruebas de explotación}
-Entre las pruebas realizadas, se ha incluido la explotación de la vulnerabilidad CVE-2021-41773, descubierta en versiones anteriores del servidor web Apache HTTP. Esta vulnerabilidad, que afecta a Apache 2.4.49 y 2.4.50, permite a un atacante no autenticado realizar un path traversal para acceder a archivos fuera de los directorios permitidos. En casos más graves, la explotación de esta vulnerabilidad puede conducir a la ejecución remota de código (RCE), lo que da al atacante control sobre el sistema afectado. Para más información sobre esta vulnerabilidad, se ha utilizado el análisis detallado disponible en el blog de HackTheBox\cite{cve-2021-41773}.
+Entre las pruebas realizadas, se ha incluido la explotación de la vulnerabilidad CVE-2021-41773, descubierta en versiones anteriores del servidor web Apache HTTP. Esta vulnerabilidad, que afecta a Apache 2.4.49 y 2.4.50, permite a un atacante no autenticado realizar un \textit{path traversal} para acceder a archivos fuera de los directorios permitidos. En casos más graves, la explotación de esta vulnerabilidad puede conducir a la ejecución remota de código (RCE), lo que da al atacante control sobre el sistema afectado. Para más información sobre esta vulnerabilidad, se ha utilizado el análisis detallado disponible en el blog de HackTheBox\cite{cve-2021-41773}.
 
 El ataque se realizó desde una máquina externa, enviando solicitudes HTTP con el fin de explotar la vulnerabilidad. Estas peticiones contenían rutas que intentaban ejecutar comandos arbitrarios. Para verificar si el ataque era exitoso y si se había logrado la ejecución remota de código, se utilizó una técnica de escucha en la VM donde está alojado el contenedor.
 
-Específicamente, la petición HTTP inyecta una petición con \cite{netcat} para enviar una traza o señal al localhost, donde habia un puerto habilitado herramienta Netcat (nc) en modo escucha. Netcat fue utilizado para recibir la conexión entrante como prueba de que el servidor había ejecutado el comando enviado desde la máquina externa.
+Específicamente, la petición HTTP inyecta una petición con \cite{netcat} para enviar una traza o señal al localhost, donde había un puerto habilitado herramienta Netcat (nc) en modo escucha. Netcat fue utilizado para recibir la conexión entrante como prueba de que el servidor había ejecutado el comando enviado desde la máquina externa.
 
 \begin{table}[H]
     \centering
