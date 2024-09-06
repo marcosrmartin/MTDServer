@@ -64,9 +64,10 @@ class ContainerController:
             logger.info(f"The {container.name} was removed.")
 
         except docker.errors.APIError as e:
-            if 'removal of container' in str(e) and 'is already in progress' in str(e):
+            if 'removal of container' in str(e) and 'is already in progress' in str(e) or 'but did not receive an exit event' in str(e):
                 logger.info(f"The {container.name} removing is already in progress.")
-                pass
+                if container in self._active_containers:
+                    self._active_containers.remove(container)
             else:
                 logger.error(f"Docker API error: {str(e)}")
         except Exception as e:
